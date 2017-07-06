@@ -1,0 +1,20 @@
+<table class="table table-hover table-sm">
+  <thead>
+  <tr>
+    <th>Start</th>
+    <th>Slut</th>
+    <th>Tur</th>
+    <th>Chauffører</th>
+    <th>Beskrivelse</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let trip of trips | async">
+    <th>{{trip.start | date: 'HH:mm' }}</th>
+    <td class="text-muted">{{trip.end | date: 'HH:mm' }}</td>
+    <td>{{trip.name}}</td>
+    <td>{{trip.drivers}}</td>
+    <td class="text-muted">{{trip.description}}</td>
+  </tr>
+  </tbody>
+</table>

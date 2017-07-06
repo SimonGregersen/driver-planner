@@ -1,0 +1,41 @@
+<div class="row mt-5">
+  <div class="col-12">
+    <h2 class="font-weight-bold">Dagsplaner</h2>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-10">
+    <main>
+      <h3 class="mb-3">
+        Mandag
+        <small class="text-muted">20. juni 2011</small>
+      </h3>
+      <app-trips [trips]="trips"></app-trips>
+    </main>
+  </div>
+  <div class="col-2">
+    <aside>
+      <div class="list-group mb-4">
+        <h5>Dato</h5>
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" readonly [showWeekNumbers]="true" (click)="d.toggle()"
+                   name="dp" [(ngModel)]="date" ngbDatepicker #d="ngbDatepicker">
+
+            <div class="input-group-addon" (click)="d.toggle()">
+              <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="list-group">
+        <h5>Chauffører</h5>
+        <a *ngFor="let driver of dataStore.drivers | async"
+           href="#"
+           class="list-group-item list-group-item-action">
+          {{driver.firstName}}
+        </a>
+      </div>
+    </aside>
+  </div>
+</div>
