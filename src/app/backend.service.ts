@@ -32,6 +32,12 @@ export class BackendService {
     return Observable.of(List(this.drivers));
   }
 
+  addTrip(trip: Trip): Observable<List<Trip>> {
+    // TODO: id
+    this.trips.push(trip);
+    return Observable.of(List(this.trips));
+  }
+
   getTrips(): Observable<List<Trip>> {
     if (!this.trips) {
       this.trips = [];
@@ -45,8 +51,8 @@ export class BackendService {
           start: thisDate,
           end: thisDate,
           name: <string>randomSentence({min: 2, max: 3}),
-          drivers: <Driver[]>[this.drivers[0]],
-          description: <string>randomSentence({min: 0, max: 10})
+          driverIDs: [Math.floor(Math.random() * 9)],
+          description: <string>randomSentence({min: 0, max: 20})
         });
       }
       this.trips.sort((a, b) => {

@@ -12,7 +12,6 @@ export class DataStore {
   private _trips: BehaviorSubject<List<Trip>> = new BehaviorSubject(List([]));
 
   public readonly drivers: Observable<List<Driver>> = this._drivers.asObservable();
-  public readonly trips: Observable<List<Trip>> = this._trips.asObservable();
 
   constructor(private backendService: BackendService) {
     this.backendService
@@ -23,16 +22,31 @@ export class DataStore {
       .subscribe(trips => this._trips.next(trips), err => console.error('ERROR'));
   }
 
+  getTrips(from: any, to?: any): Observable<List<Trip>> {
+    return this._trips.asObservable();
+  }
+
+  addTrip(start: Date, end: Date, name: string, description: string, driverIDs: number[]) {
+    const trip = {id: 0, start: start, end: end, name: name, description: description, driverIDs: driverIDs};
+    this.backendService
+      .addTrip(trip)
+      .subscribe(() => this._trips.next(this._trips.getValue().push(trip)));
+  }
+
+  getDriver(driverID: number): Driver {
+    return this._drivers.getValue().find(d => d.id === driverID);
+  }
+
   addDriver(driver: Driver) {
     this.backendService
       .addDriver(driver)
-      .subscribe(_ => this._drivers.next(this._drivers.getValue().push(driver)));
+      .subscribe(() => this._drivers.next(this._drivers.getValue().push(driver)));
   }
 
   removeDriver(driver: Driver) {
     this.backendService
       .removeDriver(driver)
-      .subscribe(_ => {
+      .subscribe(() => {
         const drivers: List<Driver> = this._drivers.getValue();
         const index = drivers.findIndex(d => d.id !== driver.id);
         this._drivers.next(drivers.delete(index));

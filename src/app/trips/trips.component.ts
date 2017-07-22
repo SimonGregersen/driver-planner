@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 import {List} from 'immutable';
 import {Trip} from '../trip';
 
@@ -10,7 +9,7 @@ import {Trip} from '../trip';
 })
 export class TripsComponent implements OnInit {
   @Input()
-  trips: Observable<List<Trip>>;
+  trips: List<Trip>;
 
   constructor() {
   }

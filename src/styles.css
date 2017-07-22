@@ -6,3 +6,15 @@ html, body {
 body {
   padding-top: 50px;
 }
+
+.list-group button {
+  outline: none;
+}
+
+.w-5 {
+  width: 5% !important;
+}
+
+.w-35 {
+  width: 35% !important;
+}

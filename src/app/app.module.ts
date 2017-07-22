@@ -16,11 +16,13 @@ import {HttpModule} from '@angular/http';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AuthenticationService} from './authentication.service';
-import { OverviewComponent } from './overview/overview.component';
-import { TemplatesComponent } from './templates/templates.component';
-import { RoutesComponent } from './routes/routes.component';
-import { DriversComponent } from './drivers/drivers.component';
-import { VehiclesComponent } from './vehicles/vehicles.component';
+import {OverviewComponent} from './overview/overview.component';
+import {TemplatesComponent} from './templates/templates.component';
+import {RoutesComponent} from './routes/routes.component';
+import {DriversComponent} from './drivers/drivers.component';
+import {VehiclesComponent} from './vehicles/vehicles.component';
+import {TripCreatorComponent} from './trip-creator/trip-creator.component';
+import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
     TemplatesComponent,
     RoutesComponent,
     DriversComponent,
-    VehiclesComponent
+    VehiclesComponent,
+    TripCreatorComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    MultiselectDropdownModule
   ],
   providers: [
     AuthenticationService,

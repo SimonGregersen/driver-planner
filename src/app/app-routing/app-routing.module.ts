@@ -9,7 +9,7 @@ import {DriversComponent} from '../drivers/drivers.component';
 import {VehiclesComponent} from '../vehicles/vehicles.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/overview', pathMatch: 'full'},
+  {path: '', redirectTo: '/day', pathMatch: 'full'},
   {path: 'login', component: SignInComponent},
   {path: 'overview', component: OverviewComponent},
   {path: 'day', component: DayPlannerComponent},
