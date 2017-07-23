@@ -5,4 +5,5 @@ export interface Trip {
   name: string;
   description: string;
   driverIDs: number[];
+  vehicleIDs: number[];
 }

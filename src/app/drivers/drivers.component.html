@@ -1,3 +1,59 @@
-<p>
-  drivers works!
-</p>
+<div class="row mt-5">
+  <div class="col-12">
+    <h2 class="font-weight-bold">Chauffører</h2>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-12">
+    <table class="table table-hover table-sm">
+      <thead>
+      <tr>
+        <th class="w-5">id</th>
+        <th>Kaldenavn</th>
+        <th>Fulde navn</th>
+        <th>Fødselsdag</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let driver of dataStore.drivers | async">
+        <td>{{driver.id}}</td>
+        <th>{{driver.nickname}}</th>
+        <td>{{driver.name}}</td>
+        <td>{{driver.birthday | date: 'yyyy-MM-dd'}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<h4 class="mt-5 mb-3">Opret chauffør</h4>
+<div class="form-group row">
+  <label for="nickname" class="col-2 col-form-label">Kaldenavn</label>
+  <div class="col-10">
+    <input class="form-control" type="text" id="nickname" [(ngModel)]="nickname">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="name" class="col-2 col-form-label">Navn</label>
+  <div class="col-10">
+    <input class="form-control" type="text" id="name" [(ngModel)]="name">
+  </div>
+</div>
+<div class="row mt-3 form-group">
+  <label for="birthday" class="col-2 col-form-label">Fødseldag</label>
+  <div class="col-5 col-md-3">
+    <div class="input-group">
+      <input ngbDatepicker
+             #d="ngbDatepicker"
+             id="birthday"
+             class="form-control"
+             readonly
+             [showWeekNumbers]="true"
+             (click)="d.toggle()"
+             [(ngModel)]="birthday">
+      <div class="input-group-addon" (click)="d.toggle()">
+        <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="btn btn-primary pull-right" (click)="create()">Opret</button>

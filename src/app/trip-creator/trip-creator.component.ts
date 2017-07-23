@@ -36,7 +36,7 @@ export class TripCreatorComponent implements OnInit {
 
   ngOnInit() {
     this.dataStore.drivers
-      .subscribe(ds => this.availableDrivers = ds.map(d => ({id: d.id, name: d.firstName})).toArray());
+      .subscribe(ds => this.availableDrivers = ds.map(d => ({id: d.id, name: d.nickname})).toArray());
   }
 
   constructor(private dataStore: DataStore) {
@@ -46,9 +46,10 @@ export class TripCreatorComponent implements OnInit {
     if (this.name === '' || !this._fromDate || this._fromDate === null) {
       return;
     }
+    // TODO: vehicles
     this.dataStore.addTrip(
       Utility.toJSDate(this._fromDate, this._fromTime), Utility.toJSDate(this._toDate, this._toTime)
-      , this.name, this.description, this.drivers);
+      , this.name, this.description, this.drivers, []);
     this.reset();
   }
 

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 import {List} from 'immutable';
-import {NAMES} from '../assets/drivers';
-import {Driver} from './driver';
+import randomSentence from 'random-sentence';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/share';
+import {Observable} from 'rxjs/Observable';
+import {NAMES} from '../assets/drivers';
+import {Driver} from './driver';
 import {Trip} from './trip';
-import randomSentence from 'random-sentence';
 
 @Injectable()
 export class BackendService {
@@ -15,7 +15,12 @@ export class BackendService {
 
   constructor() {
     let i = 0;
-    this.drivers = NAMES.map(name => ({id: i++, firstName: name, lastName: ''}));
+    this.drivers = NAMES.map(name => ({
+      id: i++,
+      nickname: name,
+      name: name,
+      birthday: '',
+    }));
   }
 
   getDrivers(): Observable<List<Driver>> {
@@ -52,6 +57,7 @@ export class BackendService {
           end: thisDate,
           name: <string>randomSentence({min: 2, max: 3}),
           driverIDs: [Math.floor(Math.random() * 9)],
+          vehicleIDs: [Math.floor(Math.random() * 20)],
           description: <string>randomSentence({min: 0, max: 20})
         });
       }

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Driver} from './driver';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {List} from 'immutable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable} from 'rxjs/Observable';
 import {BackendService} from './backend.service';
+import {Driver} from './driver';
 import {Trip} from './trip';
 
 @Injectable()
@@ -26,8 +26,9 @@ export class DataStore {
     return this._trips.asObservable();
   }
 
-  addTrip(start: Date, end: Date, name: string, description: string, driverIDs: number[]) {
-    const trip = {id: 0, start: start, end: end, name: name, description: description, driverIDs: driverIDs};
+  addTrip(start: Date, end: Date, name: string, description: string, driverIDs: number[], vehicleIDs: number[]) {
+    // TODO: id
+    const trip = {id: 0, start, end, name, description, driverIDs, vehicleIDs};
     this.backendService
       .addTrip(trip)
       .subscribe(() => this._trips.next(this._trips.getValue().push(trip)));
@@ -37,7 +38,9 @@ export class DataStore {
     return this._drivers.getValue().find(d => d.id === driverID);
   }
 
-  addDriver(driver: Driver) {
+  addDriver(nickname: string, name: string, birthday: Date) {
+    // TODO: id
+    const driver = {id: 0, nickname, name, birthday};
     this.backendService
       .addDriver(driver)
       .subscribe(() => this._drivers.next(this._drivers.getValue().push(driver)));

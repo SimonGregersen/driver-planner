@@ -1,5 +1,6 @@
 export interface Driver {
   id: number;
-  firstName: string;
-  lastName: string;
+  nickname: string;
+  name: string;
+  birthday: Date | string;
 }

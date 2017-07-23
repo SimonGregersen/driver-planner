@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import {isUndefined} from 'util';
 import {DataStore} from '../data.service';
 import {Trip} from '../trip';
-import {isUndefined} from 'util';
-import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 
 @Component({
   selector: 'app-day-planner',
@@ -12,7 +12,7 @@ import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 export class DayPlannerComponent implements OnInit {
   trips: Trip[];
   filteredTrips: Trip[];
-  private _selectedDriverID: number;
+  private _selectedDriverID: number = null;
   private _selectedDate: NgbDate;
 
   constructor(public dataStore: DataStore) {
@@ -33,7 +33,7 @@ export class DayPlannerComponent implements OnInit {
       this.filteredTrips = this.trips;
     } else {
       this._selectedDriverID = driverID;
-      this.filteredTrips = this.trips.filter(t => !isUndefined(t.driverIDs.find(id => id === driverID)));
+      this.filterTripsByDriver()
     }
   }
 
@@ -43,12 +43,21 @@ export class DayPlannerComponent implements OnInit {
 
   set selectedDate(date: NgbDate) {
     this._selectedDate = date;
-    this._selectedDriverID = null;
-    this.dataStore.getTrips(date).subscribe(trips => this.trips = this.filteredTrips = trips.toArray());
+    this.dataStore.getTrips(date).subscribe(trips => {
+      this.trips = this.filteredTrips = trips.toArray();
+      this.filterTripsByDriver();
+    });
   }
 
   get selectedDate(): NgbDate {
     return this._selectedDate;
+  }
+
+  private filterTripsByDriver(): void {
+    if (this._selectedDriverID === null) {
+      return;
+    }
+    this.filteredTrips = this.trips.filter(t => !isUndefined(t.driverIDs.find(id => id === this._selectedDriverID)));
   }
 
 }
