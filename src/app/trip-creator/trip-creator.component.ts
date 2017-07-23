@@ -22,7 +22,7 @@ export class TripCreatorComponent implements OnInit {
 
   availableDrivers: IMultiSelectOption[];
   selectSettings: IMultiSelectSettings = {
-    dynamicTitleMaxItems: 5
+    dynamicTitleMaxItems: 10
   };
   selectTexts: IMultiSelectTexts = {
     checkAll: 'Vælg all',

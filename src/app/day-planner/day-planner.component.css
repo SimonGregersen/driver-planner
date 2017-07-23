@@ -1,3 +1,7 @@
 .list-group-item:hover {
   cursor: pointer;
 }
+
+.list-group {
+  margin-bottom: 20px;
+}

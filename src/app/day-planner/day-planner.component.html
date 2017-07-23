@@ -4,13 +4,7 @@
   </div>
 </div>
 <div class="row mt-5">
-  <div class="col-10">
-    <main>
-      <app-trips [trips]="filteredTrips"></app-trips>
-      <app-trip-creator></app-trip-creator>
-    </main>
-  </div>
-  <div class="col-2">
+  <div class="col-12 col-lg-2 push-lg-10">
     <aside>
       <div class="list-group mb-4">
         <h5>Dato</h5>
@@ -42,5 +36,11 @@
         </button>
       </div>
     </aside>
+  </div>
+  <div class="col-12 col-lg-10 pull-lg-2">
+    <main>
+      <app-trips [trips]="filteredTrips"></app-trips>
+      <app-trip-creator></app-trip-creator>
+    </main>
   </div>
 </div>

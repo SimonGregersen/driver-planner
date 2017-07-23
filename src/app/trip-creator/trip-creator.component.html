@@ -1,17 +1,13 @@
 <h4 class="mt-5 mb-3">Opret tur</h4>
-<div class="row">
-  <div class="col-12">
-    <div class="form-group row">
-      <label for="name" class="col-1 col-form-label">Navn</label>
-      <div class="col-11">
-        <input class="form-control" type="text" id="name" [(ngModel)]="name">
-      </div>
-    </div>
+<div class="form-group row">
+  <label for="name" class="col-2 col-form-label">Navn</label>
+  <div class="col-10">
+    <input class="form-control" type="text" id="name" [(ngModel)]="name">
   </div>
 </div>
-<div class="row">
-  <label for="fromDate" class="col-1 col-form-label">Fra</label>
-  <div class="col-3">
+<div class="row form-group">
+  <label for="fromDate" class="col-2 col-form-label">Fra</label>
+  <div class="col-5 col-md-3">
     <div class="input-group">
       <input ngbDatepicker
              #d1="ngbDatepicker"
@@ -26,11 +22,13 @@
       </div>
     </div>
   </div>
-  <div class="col-2">
+  <div class="col-5 col-md-3">
     <ngb-timepicker [(ngModel)]="fromTime" [spinners]="false"></ngb-timepicker>
   </div>
-  <label for="toDate" class="col-1 col-form-label">Til</label>
-  <div class="col-3">
+</div>
+<div class="row mt-3 form-group">
+  <label for="toDate" class="col-2 col-form-label">Til</label>
+  <div class="col-5 col-md-3">
     <div class="input-group">
       <input ngbDatepicker
              #d2="ngbDatepicker"
@@ -46,31 +44,25 @@
       </div>
     </div>
   </div>
-  <div class="col-2">
+  <div class="col-5 col-md-3">
     <ngb-timepicker [(ngModel)]="toTime" [disabled]="!fromDate" [spinners]="false"></ngb-timepicker>
   </div>
 </div>
-<div class="row mt-3">
-  <div class="col-12">
-    <div class="form-group row">
-      <label class="col-1 col-form-label">Chauffør</label>
-      <div class="col-11">
-        <ss-multiselect-dropdown [options]="availableDrivers"
-                                 [settings]="selectSettings"
-                                 [texts]="selectTexts"
-                                 [(ngModel)]="drivers"></ss-multiselect-dropdown>
-      </div>
-    </div>
+<div class="form-group row">
+  <label class="col-2 col-form-label">Chauffør</label>
+  <div class="col-10">
+    <ss-multiselect-dropdown [options]="availableDrivers"
+                             [settings]="selectSettings"
+                             [texts]="selectTexts"
+                             [(ngModel)]="drivers">
+    </ss-multiselect-dropdown>
   </div>
 </div>
-<div class="row">
-  <div class="col-12">
-    <div class="form-group row">
-      <label for="notes" class="col-1 col-form-label">Beskrivelse</label>
-      <div class="col-11">
-        <textarea class="form-control" id="notes" rows="5" [(ngModel)]="description"></textarea>
-      </div>
-    </div>
+<div class="form-group row">
+  <label for="notes" class="col-2 col-form-label">Beskrivelse</label>
+  <div class="col-10">
+    <textarea class="form-control" id="notes" rows="5" [(ngModel)]="description"></textarea>
   </div>
 </div>
+
 <button class="btn btn-primary pull-right" (click)="create()">Opret</button>
