@@ -4,24 +4,29 @@
     <th class="w-5">Start</th>
     <th class="w-5">Slut</th>
     <th class="w-35">Tur</th>
-    <th class="w-15">Chauffører</th>
-    <th class="w-15">Køretøjer</th>
-    <th class="">Beskrivelse</th>
+    <th>Chauffører</th>
+    <th>Køretøjer</th>
+    <th class="w-7_5 hidden-print"></th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let trip of trips">
     <th>{{trip.start | date: 'HH:mm' }}</th>
     <td class="text-muted">{{trip.end | date: 'HH:mm' }}</td>
-    <td>{{trip.name}}</td>
+    <td>
+      {{trip.name}}
+    <small class="text-muted visible-print-inline"><br>{{trip.description}}</small>
+    </td>
     <td>
       <span *ngFor="let key of trip.drivers; let isLast=last">
       {{ (dataStore.getDriver(key) | async).displayName }}{{isLast ? '' : ', '}}
       </span>
     </td>
     <td>{{trip.vehicles}}</td>
-    <td class="text-muted text-truncate" ngbTooltip="{{trip.description}}" style="max-width: 100px">
-      {{ trip.description }}
+    <td class="hidden-print">
+      <i class="fa fa-file-text" ngbTooltip="{{trip.description}}"></i>
+      <i class="fa fa-pencil" ngbTooltip="Rediger"></i>
+      <i class="fa fa-times" ngbTooltip="Slet"></i>
     </td>
   </tr>
   </tbody>

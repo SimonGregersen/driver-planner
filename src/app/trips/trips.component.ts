@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Trip} from '../trip';
 import {DataStore} from '../data.service';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-trips',

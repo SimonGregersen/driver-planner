@@ -16,10 +16,20 @@ body {
   width: 5% !important;
 }
 
+.w-7_5 {
+  width: 7.5% !important;
+}
+
 .w-15 {
   width: 15% !important;
 }
 
 .w-35 {
   width: 35% !important;
+}
+
+@media print {
+  html, body {
+    font-size: 11px;
+  }
 }
