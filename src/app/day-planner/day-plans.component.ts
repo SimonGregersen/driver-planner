@@ -7,11 +7,11 @@ import {Driver} from '../driver';
 import {Utility} from '../utility';
 
 @Component({
-  selector: 'app-day-planner',
-  templateUrl: './day-planner.component.html',
-  styleUrls: ['./day-planner.component.css']
+  selector: 'app-day-plans',
+  templateUrl: './day-plans.component.html',
+  styleUrls: ['./day-plans.component.css']
 })
-export class DayPlannerComponent implements OnInit {
+export class DayPlansComponent implements OnInit {
   utility = Utility;
   trips: Trip[];
   filteredTrips: Trip[];

@@ -10,7 +10,7 @@ import {environment} from '../environments/environment';
 import {AngularFireModule} from 'angularfire2';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {AppRoutingModule} from './app-routing/app-routing.module';
-import {DayPlannerComponent} from './day-planner/day-planner.component';
+import {DayPlansComponent} from './day-planner/day-plans.component';
 import {HttpModule} from '@angular/http';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {AngularFireAuthModule} from 'angularfire2/auth';
@@ -22,19 +22,21 @@ import {DriversComponent} from './drivers/drivers.component';
 import {VehiclesComponent} from './vehicles/vehicles.component';
 import {TripCreatorComponent} from './trip-creator/trip-creator.component';
 import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
+import {DriverPlansComponent} from './driver-planner/driver-plans.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TripsComponent,
     SignInComponent,
-    DayPlannerComponent,
+    DayPlansComponent,
     OverviewComponent,
     TemplatesComponent,
     RoutesComponent,
     DriversComponent,
     VehiclesComponent,
-    TripCreatorComponent
+    TripCreatorComponent,
+    DriverPlansComponent
   ],
   imports: [
     BrowserModule,
