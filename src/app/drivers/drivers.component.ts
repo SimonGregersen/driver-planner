@@ -13,7 +13,7 @@ export class DriversComponent implements OnInit {
 
   constructor(public dataStore: DataStore, private fb: FormBuilder) {
     this.driverForm = this.fb.group({
-      nickname: ['', Validators.required],
+      displayName: ['', Validators.required],
       name: ['', Validators.required],
       birthday: null
     });
@@ -24,6 +24,6 @@ export class DriversComponent implements OnInit {
 
   create() {
     const val = this.driverForm.value;
-    this.dataStore.addDriver(val.nickname, val.name, (val.birthday) ? Utility.toJSDate(val.birthday) : null);
+    this.dataStore.addDriver(val.displayName, val.name, (val.birthday) ? Utility.toJSDate(val.birthday) : null);
   }
 }

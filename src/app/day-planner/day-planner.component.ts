@@ -4,6 +4,7 @@ import {isUndefined} from 'util';
 import {DataStore} from '../data.service';
 import {Trip} from '../trip';
 import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import {Driver} from '../driver';
 
 @Component({
   selector: 'app-day-planner',
@@ -13,7 +14,7 @@ import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 export class DayPlannerComponent implements OnInit {
   trips: Trip[];
   filteredTrips: Trip[];
-  private _selectedDriverID: number = null;
+  private _selectedDriver: Driver = null;
   private _selectedDate: NgbDate;
 
   constructor(public dataStore: DataStore, private calendar: NgbCalendar) {
@@ -23,28 +24,28 @@ export class DayPlannerComponent implements OnInit {
     this.selectedDate = this.calendar.getToday();
   }
 
-  set selectedDriverID(driverID: number) {
+  set selectedDriver(driver: Driver) {
     if (!this.trips) {
       return;
     }
 
-    if (driverID === this._selectedDriverID) {
-      this._selectedDriverID = null;
+    if (this._selectedDriver && driver.$key === this._selectedDriver.$key) {
+      this._selectedDriver = null;
       this.filteredTrips = this.trips;
     } else {
-      this._selectedDriverID = driverID;
+      this._selectedDriver = driver;
       this.filterTripsByDriver()
     }
   }
 
-  get selectedDriverID(): number {
-    return this._selectedDriverID;
+  get selectedDriver(): Driver {
+    return this._selectedDriver;
   }
 
   set selectedDate(date: NgbDate) {
     this._selectedDate = date;
     this.dataStore.getTrips(date).subscribe(trips => {
-      this.trips = this.filteredTrips = trips.toArray();
+      this.trips = this.filteredTrips = trips;
       this.filterTripsByDriver();
     });
   }
@@ -54,10 +55,9 @@ export class DayPlannerComponent implements OnInit {
   }
 
   private filterTripsByDriver(): void {
-    if (this._selectedDriverID === null) {
+    if (!this._selectedDriver) {
       return;
     }
-    this.filteredTrips = this.trips.filter(t => !isUndefined(t.driverIDs.find(id => id === this._selectedDriverID)));
+    this.filteredTrips = this.trips.filter(t => !isUndefined(t.drivers.find(id => id === this._selectedDriver.$key)));
   }
-
 }

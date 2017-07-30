@@ -1,9 +1,9 @@
-export interface Trip {
-  id: number;
+import {AngularFireObject} from './angular-fire-object';
+export interface Trip extends AngularFireObject {
   start: Date;
   end: Date;
   name: string;
   description: string;
-  driverIDs: number[];
-  vehicleIDs: number[];
+  drivers: string[];
+  vehicles: string[];
 }

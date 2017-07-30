@@ -20,10 +20,10 @@
                #d1="ngbDatepicker"
                id="fromDate"
                class="form-control"
+               placeholder="yyyy-MM-dd"
                [showWeekNumbers]="true"
-               (focus)="d1.toggle()"
-               (blur)="d1.close()">
-        <div class="input-group-addon" (click)="d1.toggle()">
+               (click)="d2.close(); d1.toggle()">
+        <div class="input-group-addon" (click)="d2.close(); d1.toggle()">
           <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
         </div>
       </div>
@@ -45,10 +45,10 @@
                #d2="ngbDatepicker"
                id="toDate"
                class="form-control"
+               placeholder="yyyy-MM-dd"
                [showWeekNumbers]="true"
-               (focus)="d2.toggle()"
-               (blur)="d2.close()">
-        <div class="input-group-addon" (click)="d2.toggle()">
+               (click)="d1.close(); d2.toggle()">
+        <div class="input-group-addon" (click)="d1.close(); d2.toggle()">
           <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
         </div>
       </div>

@@ -1,6 +1,6 @@
-export interface Driver {
-  id: number;
-  nickname: string;
+import {AngularFireObject} from './angular-fire-object';
+export interface Driver extends AngularFireObject {
+  displayName: string;
   name: string;
-  birthday: Date | string;
+  birthday: Date | number;
 }

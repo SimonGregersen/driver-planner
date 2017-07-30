@@ -14,11 +14,13 @@
     <th>{{trip.start | date: 'HH:mm' }}</th>
     <td class="text-muted">{{trip.end | date: 'HH:mm' }}</td>
     <td>{{trip.name}}</td>
-    <td>{{trip.driverIDs}}</td>
-    <td>{{trip.vehicleIDs}}</td>
-    <td class="text-muted text-truncate"
-        ngbTooltip="{{trip.description}}"
-        style="max-width: 100px">
+    <td>
+      <span *ngFor="let driver of trip.drivers">
+        {{driver}}
+      </span>
+    </td>
+    <td>{{trip.vehicles}}</td>
+    <td class="text-muted text-truncate" ngbTooltip="{{trip.description}}" style="max-width: 100px">
       {{ trip.description }}
     </td>
   </tr>

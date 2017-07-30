@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {DataStore} from './data.service';
-import {BackendService} from './backend.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TripsComponent} from './trips/trips.component';
@@ -51,8 +50,7 @@ import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
   ],
   providers: [
     AuthenticationService,
-    DataStore,
-    BackendService
+    DataStore
   ],
   bootstrap: [AppComponent]
 })

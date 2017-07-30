@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {List} from 'immutable';
 import {Trip} from '../trip';
+import {DataStore} from '../data.service';
 
 @Component({
   selector: 'app-trips',
@@ -9,9 +9,9 @@ import {Trip} from '../trip';
 })
 export class TripsComponent implements OnInit {
   @Input()
-  trips: List<Trip>;
+  trips: Trip[];
 
-  constructor() {
+  constructor(public dataStore: DataStore) {
   }
 
   ngOnInit() {

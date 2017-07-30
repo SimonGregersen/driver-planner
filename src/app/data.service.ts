@@ -1,60 +1,57 @@
-import {Injectable} from '@angular/core';
-import {List} from 'immutable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
-import {BackendService} from './backend.service';
-import {Driver} from './driver';
+import {Injectable, OnInit} from '@angular/core';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {Trip} from './trip';
+import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import {Utility} from './utility';
+import {Driver} from './driver';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
-export class DataStore {
-  private _drivers: BehaviorSubject<List<Driver>> = new BehaviorSubject(List([]));
-  private _trips: BehaviorSubject<List<Trip>> = new BehaviorSubject(List([]));
+export class DataStore implements OnInit {
+  public drivers: FirebaseListObservable<Driver[]>;
 
-  public readonly drivers: Observable<List<Driver>> = this._drivers.asObservable();
-
-  constructor(private backendService: BackendService) {
-    this.backendService
-      .getDrivers()
-      .subscribe(drivers => this._drivers.next(drivers), err => console.error('ERROR'));
-    this.backendService
-      .getTrips()
-      .subscribe(trips => this._trips.next(trips), err => console.error('ERROR'));
+  constructor(private db: AngularFireDatabase) {
+    this.drivers = this.db.list('/drivers');
   }
 
-  getTrips(from: any, to?: any): Observable<List<Trip>> {
-    return this._trips.asObservable();
+  ngOnInit(): void {
+
   }
 
-  addTrip(start: Date, end: Date, name: string, description: string, driverIDs: number[], vehicleIDs: number[]) {
-    // TODO: id
-    const trip = {id: 0, start, end, name, description, driverIDs, vehicleIDs};
-    this.backendService
-      .addTrip(trip)
-      .subscribe(() => this._trips.next(this._trips.getValue().push(trip)));
+  getTrips(from: NgbDate, to?: NgbDate): Observable<Trip[]> {
+    const fromDate = Utility.toJSDate(from);
+    const toDate = (to) ? Utility.toJSDate(to) : new Date(fromDate);
+    toDate.setHours(24, 0, 0, 0);
+
+    return this.db.list('/trips', {
+      query: {
+        startAt: {key: 'start', value: fromDate.getTime() - 1},
+        endAt: {key: 'start', value: toDate.getTime() - 1},
+        orderByChild: 'start'
+      }
+    });
   }
 
-  getDriver(driverID: number): Driver {
-    return this._drivers.getValue().find(d => d.id === driverID);
+  addTrip(start: Date, end: Date, name: string, description: string, drivers: any[], vehicles: any[]) {
+    const trip = {
+      start: start.getTime(),
+      end: (end) ? end.getTime() : null,
+      name,
+      description: description || '',
+      drivers: drivers || [],
+      vehicles: vehicles || []
+    };
+    const trips = this.db.list('/trips');
+    trips.push(trip);
   }
 
-  addDriver(nickname: string, name: string, birthday: Date) {
-    // TODO: id
-    const driver = {id: 0, nickname, name, birthday};
-    this.backendService
-      .addDriver(driver)
-      .subscribe(() => this._drivers.next(this._drivers.getValue().push(driver)));
+  addDriver(displayName: string, name: string, birthday: Date) {
+    const driver = {displayName: displayName, name: name, birthday: birthday.getTime()};
+    this.drivers.push(driver)
   }
 
-  removeDriver(driver: Driver) {
-    this.backendService
-      .removeDriver(driver)
-      .subscribe(() => {
-        const drivers: List<Driver> = this._drivers.getValue();
-        const index = drivers.findIndex(d => d.id !== driver.id);
-        this._drivers.next(drivers.delete(index));
-      });
+  getDriver(key: string) {
+    return this.db.list(`/drivers/${key}`);
   }
-
 
 }

@@ -30,9 +30,9 @@
           *ngFor="let driver of dataStore.drivers | async"
           type="button"
           class="list-group-item list-group-item-action text-truncate"
-          [class.active]="driver.id === selectedDriverID"
-          (click)="selectedDriverID = driver.id">
-          {{driver.nickname}}
+          [class.active]="selectedDriver?.$key === driver?.$key"
+          (click)="selectedDriver = driver">
+          {{driver.displayName}}
         </button>
       </div>
     </aside>
@@ -40,7 +40,7 @@
   <div class="col-12 col-lg-10 pull-lg-2">
     <main>
       <app-trips [trips]="filteredTrips"></app-trips>
-      <app-trip-creator [date]="selectedDate"></app-trip-creator>
+      <app-trip-creator></app-trip-creator>
     </main>
   </div>
 </div>
