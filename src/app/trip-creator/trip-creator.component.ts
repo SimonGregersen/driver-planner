@@ -11,6 +11,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class TripCreatorComponent implements OnInit {
   availableDrivers: IMultiSelectOption[];
+  availableVehicles: IMultiSelectOption[];
   tripForm: FormGroup;
 
   constructor(private dataStore: DataStore, private fb: FormBuilder) {
@@ -21,6 +22,7 @@ export class TripCreatorComponent implements OnInit {
       toDate: null,
       toTime: null,
       drivers: [[]],
+      vehicles: [[]],
       description: ''
     });
   }
@@ -28,14 +30,15 @@ export class TripCreatorComponent implements OnInit {
   ngOnInit() {
     this.dataStore.drivers
       .subscribe(ds => this.availableDrivers = ds.map(d => ({id: d.$key, name: d.displayName})));
-
+    this.dataStore.vehicles
+      .subscribe(vs => this.availableVehicles = vs.map(v => ({id: v.$key, name: v.displayName})));
   }
 
   onSubmit(): void {
     const val = this.tripForm.value;
     const from = Utility.toJSDate(val.fromDate, val.fromTime);
     const to = (val.toTime) ? Utility.toJSDate(val.toDate, val.toTime) : null;
-    this.dataStore.addTrip(from, to, val.name, val.description, val.drivers, []);
+    this.dataStore.addTrip(from, to, val.name, val.description, val.drivers, val.vehicles);
     this.tripForm.reset();
   }
 }

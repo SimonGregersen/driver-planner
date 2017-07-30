@@ -5,17 +5,19 @@ import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import {Utility} from './utility';
 import {Driver} from './driver';
 import {Observable} from 'rxjs/Observable';
+import {Vehicle} from './vehicle';
 
 @Injectable()
 export class DataStore implements OnInit {
   public drivers: FirebaseListObservable<Driver[]>;
+  public vehicles: FirebaseListObservable<Vehicle[]>;
 
   constructor(private db: AngularFireDatabase) {
     this.drivers = this.db.list('/drivers');
+    this.vehicles = this.db.list('/vehicles');
   }
 
   ngOnInit(): void {
-
   }
 
   getTrips(from: NgbDate, to?: NgbDate): Observable<Trip[]> {
@@ -46,7 +48,7 @@ export class DataStore implements OnInit {
   }
 
   addDriver(displayName: string, name: string, birthday: Date) {
-    const driver = {displayName: displayName, name: name, birthday: birthday.getTime()};
+    const driver = {displayName, name, birthday: birthday.getTime()};
     this.drivers.push(driver)
   }
 
@@ -54,4 +56,12 @@ export class DataStore implements OnInit {
     return this.db.object(`/drivers/${key}`);
   }
 
+  addVehicle(displayName: string, brand: string, regNo: string, latestInspection: Date) {
+    const vehicle = {displayName, brand, regNo, latestInspection: latestInspection.getTime()};
+    this.vehicles.push(vehicle);
+  }
+
+  getVehicle(key: string): Observable<Vehicle> {
+    return this.db.object(`/vehicles/${key}`);
+  }
 }

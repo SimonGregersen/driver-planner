@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import {isUndefined} from 'util';
 import {DataStore} from '../data.service';
 import {Trip} from '../trip';
 import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
@@ -60,6 +59,11 @@ export class DayPlannerComponent implements OnInit {
     if (!this._selectedDriver) {
       return;
     }
-    this.filteredTrips = this.trips.filter(t => !isUndefined(t.drivers.find(id => id === this._selectedDriver.$key)));
+    this.filteredTrips = this.trips.filter(t => this.isAssigned(this._selectedDriver, t));
+  }
+
+  private isAssigned(driver: Driver, trip: Trip): boolean {
+    const drivers = trip.drivers || [];
+    return drivers.includes(driver.$key);
   }
 }

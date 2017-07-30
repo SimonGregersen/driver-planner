@@ -15,16 +15,20 @@
     <td class="text-muted">{{trip.end | date: 'HH:mm' }}</td>
     <td>
       {{trip.name}}
-    <small class="text-muted visible-print-inline"><br>{{trip.description}}</small>
+      <small class="text-muted visible-print-inline"><br>{{trip.description}}</small>
     </td>
     <td>
       <span *ngFor="let key of trip.drivers; let isLast=last">
       {{ (dataStore.getDriver(key) | async).displayName }}{{isLast ? '' : ', '}}
       </span>
     </td>
-    <td>{{trip.vehicles}}</td>
+    <td>
+      <span *ngFor="let key of trip.vehicles; let isLast=last">
+      {{ (dataStore.getVehicle(key) | async).displayName }}{{isLast ? '' : ', '}}
+      </span>
+    </td>
     <td class="hidden-print">
-      <i class="fa fa-file-text" ngbTooltip="{{trip.description}}"></i>
+      <i class="fa fa-file-text" ngbTooltip="{{trip.description }}"></i>
       <i class="fa fa-pencil" ngbTooltip="Rediger"></i>
       <i class="fa fa-times" ngbTooltip="Slet"></i>
     </td>
