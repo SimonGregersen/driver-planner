@@ -5,6 +5,7 @@ import {DataStore} from '../data.service';
 import {Trip} from '../trip';
 import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import {Driver} from '../driver';
+import {Utility} from '../utility';
 
 @Component({
   selector: 'app-day-planner',
@@ -12,6 +13,7 @@ import {Driver} from '../driver';
   styleUrls: ['./day-planner.component.css']
 })
 export class DayPlannerComponent implements OnInit {
+  utility = Utility;
   trips: Trip[];
   filteredTrips: Trip[];
   private _selectedDriver: Driver = null;

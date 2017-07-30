@@ -50,8 +50,8 @@ export class DataStore implements OnInit {
     this.drivers.push(driver)
   }
 
-  getDriver(key: string) {
-    return this.db.list(`/drivers/${key}`);
+  getDriver(key: string): Observable<Driver> {
+    return this.db.object(`/drivers/${key}`);
   }
 
 }

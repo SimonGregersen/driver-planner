@@ -15,8 +15,8 @@
     <td class="text-muted">{{trip.end | date: 'HH:mm' }}</td>
     <td>{{trip.name}}</td>
     <td>
-      <span *ngFor="let driver of trip.drivers">
-        {{driver}}
+      <span *ngFor="let key of trip.drivers; let isLast=last">
+      {{ (dataStore.getDriver(key) | async).displayName }}{{isLast ? '' : ', '}}
       </span>
     </td>
     <td>{{trip.vehicles}}</td>

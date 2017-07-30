@@ -5,3 +5,10 @@
 .list-group {
   margin-bottom: 20px;
 }
+
+@media (min-width: 62em) {
+  /* >= large screen size*/
+  .list-group {
+    width: 233px;
+  }
+}
