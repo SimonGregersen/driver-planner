@@ -5,7 +5,7 @@ import {AppComponent} from './app.component';
 import {DataStore} from './data.service';
 import {BackendService} from './backend.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TripsComponent} from './trips/trips.component';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from 'angularfire2';
@@ -41,6 +41,7 @@ import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
     BrowserModule,
     HttpModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

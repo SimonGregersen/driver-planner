@@ -3,6 +3,7 @@ import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import {isUndefined} from 'util';
 import {DataStore} from '../data.service';
 import {Trip} from '../trip';
+import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-day-planner',
@@ -15,12 +16,11 @@ export class DayPlannerComponent implements OnInit {
   private _selectedDriverID: number = null;
   private _selectedDate: NgbDate;
 
-  constructor(public dataStore: DataStore) {
+  constructor(public dataStore: DataStore, private calendar: NgbCalendar) {
   }
 
   ngOnInit(): void {
-    const now = new Date();
-    this.selectedDate = new NgbDate(now.getFullYear(), now.getMonth() + 1, now.getDate());
+    this.selectedDate = this.calendar.getToday();
   }
 
   set selectedDriverID(driverID: number) {

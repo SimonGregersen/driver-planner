@@ -1,67 +1,77 @@
 <h4 class="mt-5 mb-3">Opret tur</h4>
-<div class="form-group row">
-  <label for="name" class="col-2 col-form-label">Navn</label>
-  <div class="col-10">
-    <input class="form-control" type="text" id="name" [(ngModel)]="name">
-  </div>
-</div>
-<div class="row form-group">
-  <label for="fromDate" class="col-2 col-form-label">Fra</label>
-  <div class="col-5 col-md-3">
-    <div class="input-group">
-      <input ngbDatepicker
-             #d1="ngbDatepicker"
-             id="fromDate"
-             class="form-control"
-             readonly
-             [showWeekNumbers]="true"
-             (click)="d1.toggle()"
-             [(ngModel)]="fromDate">
-      <div class="input-group-addon" (click)="d1.toggle()">
-        <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
+<form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+  <div class="form-group row"
+       [class.has-danger]="!tripForm.controls['name'].valid && tripForm.controls['name'].dirty">
+    <label for="name" class="col-2 col-form-label">Navn</label>
+    <div class="col-10">
+      <input class="form-control" type="text" id="name" formControlName="name">
+      <div class="form-control-feedback" *ngIf="!tripForm.controls['name'].valid && tripForm.controls['name'].dirty">
+        Navn påkrævet.
       </div>
     </div>
   </div>
-  <div class="col-5 col-md-3">
-    <ngb-timepicker [(ngModel)]="fromTime" [spinners]="false"></ngb-timepicker>
-  </div>
-</div>
-<div class="row mt-3 form-group">
-  <label for="toDate" class="col-2 col-form-label">Til</label>
-  <div class="col-5 col-md-3">
-    <div class="input-group">
-      <input ngbDatepicker
-             #d2="ngbDatepicker"
-             id="toDate"
-             class="form-control"
-             readonly
-             [showWeekNumbers]="true"
-             (click)="d2.toggle()"
-             [disabled]="!fromDate"
-             [(ngModel)]="toDate">
-      <div class="input-group-addon" (click)="d2.toggle()">
-        <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
+  <div class="row form-group"
+       [class.has-danger]="!tripForm.controls['fromDate'].valid && tripForm.controls['fromDate'].dirty">
+    <label for="fromDate" class="col-2 col-form-label">Fra</label>
+    <div class="col-5 col-md-3">
+      <div class="input-group">
+        <input formControlName="fromDate"
+               ngbDatepicker
+               #d1="ngbDatepicker"
+               id="fromDate"
+               class="form-control"
+               [showWeekNumbers]="true"
+               (focus)="d1.toggle()"
+               (blur)="d1.close()">
+        <div class="input-group-addon" (click)="d1.toggle()">
+          <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
+        </div>
+      </div>
+      <div class="form-control-feedback"
+           *ngIf="!tripForm.controls['fromDate'].valid && tripForm.controls['fromDate'].dirty">
+        Dato påkrævet.
       </div>
     </div>
+    <div class="col-5 col-md-3">
+      <ngb-timepicker formControlName="fromTime" [spinners]="false"></ngb-timepicker>
+    </div>
   </div>
-  <div class="col-5 col-md-3">
-    <ngb-timepicker [(ngModel)]="toTime" [disabled]="!fromDate" [spinners]="false"></ngb-timepicker>
+  <div class="row mt-3 form-group">
+    <label for="toDate" class="col-2 col-form-label">Til</label>
+    <div class="col-5 col-md-3">
+      <div class="input-group">
+        <input formControlName="toDate"
+               ngbDatepicker
+               #d2="ngbDatepicker"
+               id="toDate"
+               class="form-control"
+               [showWeekNumbers]="true"
+               (focus)="d2.toggle()"
+               (blur)="d2.close()">
+        <div class="input-group-addon" (click)="d2.toggle()">
+          <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-5 col-md-3">
+      <ngb-timepicker formControlName="toTime" [spinners]="false"></ngb-timepicker>
+    </div>
   </div>
-</div>
-<div class="form-group row">
-  <label class="col-2 col-form-label">Chauffør</label>
-  <div class="col-10">
-    <ss-multiselect-dropdown [options]="availableDrivers"
-                             [settings]="selectSettings"
-                             [texts]="selectTexts"
-                             [(ngModel)]="drivers">
-    </ss-multiselect-dropdown>
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Chauffører</label>
+    <div class="col-10">
+      <ss-multiselect-dropdown formControlName="drivers"
+                               [options]="availableDrivers"
+                               [settings]="{dynamicTitleMaxItems: 10}"
+                               [texts]="{defaultTitle: 'Vælg chauffører'}">
+      </ss-multiselect-dropdown>
+    </div>
   </div>
-</div>
-<div class="form-group row">
-  <label for="notes" class="col-2 col-form-label">Beskrivelse</label>
-  <div class="col-10">
-    <textarea class="form-control" id="notes" rows="5" [(ngModel)]="description"></textarea>
+  <div class="form-group row">
+    <label for="notes" class="col-2 col-form-label">Beskrivelse</label>
+    <div class="col-10">
+      <textarea class="form-control" id="notes" rows="10" formControlName="description"></textarea>
+    </div>
   </div>
-</div>
-<button class="btn btn-primary pull-right" (click)="create()">Opret</button>
+  <button type="submit" class="btn btn-primary pull-right" [disabled]="!tripForm.valid">Opret</button>
+</form>
