@@ -11,8 +11,16 @@
   </thead>
   <tbody>
   <tr *ngFor="let trip of trips">
-    <th>{{trip.start | date: 'HH:mm' }}</th>
-    <td class="text-muted">{{trip.end | date: 'HH:mm' }}</td>
+    <th>
+      <span ngbTooltip="{{trip.start | date: 'yy-MM-dd HH:mm'}}" container="'body'">
+      {{trip.start | date: 'HH:mm' }}
+      </span>
+    </th>
+    <td class="text-muted">
+      <span ngbTooltip="{{trip.end | date: 'yy-MM-dd HH:mm'}}" container="'body'">
+        {{trip.end | date:'HH:mm' }}
+      </span>
+    </td>
     <td>
       {{trip.name}}
       <small class="text-muted visible-print-inline"><br>{{trip.description}}</small>
@@ -28,19 +36,36 @@
       </span>
     </td>
     <td class="hidden-print">
-      <i class="fa fa-file-text" ngbTooltip="{{trip.description }}"></i>
-      <i class="fa fa-pencil" ngbTooltip="Rediger"></i>
-      <a mwlConfirmationPopover
-         role="button"
-         [message]="'Er du sikker på, at du vil slette turen<br>\'' + trip.name + '\'?'"
-         [confirmButtonType]="'danger'"
-         [confirmText]="'Slet'"
-         [cancelText]="'Annuller'"
-         placement="left"
-         (confirm)="removeTrip(trip)">
-        <i class="fa fa-trash" ngbTooltip="Slet"></i>
-      </a>
+      <div class="pull-right icons">
+        <a role="button"
+           (click)="editTrip(content, trip)">
+          <i class="fa fa-pencil" ngbTooltip="Rediger"></i>
+        </a>
+        <a mwlConfirmationPopover
+           role="button"
+           [message]="'Er du sikker på, at du vil slette turen<br>\'' + trip.name + '\'?'"
+           [confirmButtonType]="'danger'"
+           [confirmText]="'Slet'"
+           [cancelText]="'Annuller'"
+           placement="left"
+           (confirm)="removeTrip(trip)">
+          <i class="fa fa-trash" ngbTooltip="Slet"></i>
+        </a>
+      </div>
     </td>
   </tr>
   </tbody>
 </table>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Rediger
+      <small>{{beingEdited.name}}</small>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-trip-editor [trip]="beingEdited" (save)="c()"></app-trip-editor>
+  </div>
+</ng-template>

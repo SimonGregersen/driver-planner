@@ -24,6 +24,7 @@ import {TripCreatorComponent} from './trip-creator/trip-creator.component';
 import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import {DriverPlansComponent} from './driver-planner/driver-plans.component';
 import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
+import {TripEditorComponent} from './trip-editor/trip-editor.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,11 @@ import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
     DriversComponent,
     VehiclesComponent,
     TripCreatorComponent,
-    DriverPlansComponent
+    DriverPlansComponent,
+    TripEditorComponent
+  ],
+  entryComponents: [
+    TripEditorComponent
   ],
   imports: [
     BrowserModule,

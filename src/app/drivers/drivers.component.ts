@@ -4,6 +4,7 @@ import {Utility} from '../utility';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Driver} from '../driver';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-drivers',

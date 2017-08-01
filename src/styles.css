@@ -28,6 +28,10 @@ body {
   width: 35% !important;
 }
 
+.icons {
+  color: #464A4C;
+}
+
 @media print {
   html, body {
     font-size: 11px;

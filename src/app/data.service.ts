@@ -6,18 +6,18 @@ import {Utility} from './utility';
 import {Driver} from './driver';
 import {Observable} from 'rxjs/Observable';
 import {Vehicle} from './vehicle';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 
 @Injectable()
 export class DataStore implements OnInit {
   private drivers$: FirebaseListObservable<Driver[]>;
   private vehicles$: FirebaseListObservable<Vehicle[]>;
-  private trips: FirebaseListObservable<Trip[]>;
+  private trips$: FirebaseListObservable<Trip[]>;
 
   constructor(private db: AngularFireDatabase) {
     this.drivers$ = this.db.list('/drivers');
     this.vehicles$ = this.db.list('/vehicles');
-    this.trips = this.db.list('/trips');
+    this.trips$ = this.db.list('/trips');
   }
 
   ngOnInit(): void {
@@ -34,7 +34,10 @@ export class DataStore implements OnInit {
         endAt: {key: 'start', value: toDate.getTime() - 1},
         orderByChild: 'start'
       }
-    });
+    }).do(ts => ts.forEach(t => {
+      t.start = new Date(t.start);
+      t.end = (t.end) ? new Date(t.end) : null;
+    }));
   }
 
   addTrip(start: Date, end: Date, name: string, description: string, drivers: any[], vehicles: any[]) {
@@ -46,11 +49,21 @@ export class DataStore implements OnInit {
       drivers: drivers || [],
       vehicles: vehicles || []
     };
-    return this.trips.push(trip);
+    return this.trips$.push(trip);
+  }
+
+  updateTrip(trip: Trip, updates: any) {
+    if (trip.start) {
+      updates.start = trip.start.getTime();
+    }
+    if (trip.end) {
+      updates.end = trip.end.getTime();
+    }
+    this.trips$.update(trip.$key, updates);
   }
 
   removeTrip(trip: Trip) {
-    return this.trips.remove(trip);
+    return this.trips$.remove(trip);
   }
 
   getAllDrivers(): Observable<Driver[]> {

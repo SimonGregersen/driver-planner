@@ -55,6 +55,10 @@ export class DayPlansComponent implements OnInit {
     return this._selectedDate;
   }
 
+  print() {
+    window.print();
+  }
+
   private filterTripsByDriver(): void {
     if (!this._selectedDriver) {
       return;

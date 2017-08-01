@@ -13,6 +13,14 @@ export class Utility {
     return new Date(date.year, date.month - 1, date.day, time.hour, time.minute, time.second);
   }
 
+  static toNgbDate(date: Date): NgbDateStruct {
+    return {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()};
+  }
+
+  static toNgbTime(date: Date): NgbTimeStruct {
+    return {hour: date.getHours(), minute: date.getMinutes(), second: date.getSeconds()};
+  }
+
   static filterDeleted(arr: any[]): any[] {
     return arr.filter(d => !d.deleted);
   }
