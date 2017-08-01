@@ -23,6 +23,7 @@ import {VehiclesComponent} from './vehicles/vehicles.component';
 import {TripCreatorComponent} from './trip-creator/trip-creator.component';
 import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import {DriverPlansComponent} from './driver-planner/driver-plans.component';
+import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {DriverPlansComponent} from './driver-planner/driver-plans.component';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     NgbModule.forRoot(),
-    MultiselectDropdownModule
+    MultiselectDropdownModule,
+    ConfirmationPopoverModule.forRoot()
   ],
   providers: [
     AuthenticationService,

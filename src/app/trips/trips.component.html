@@ -30,7 +30,16 @@
     <td class="hidden-print">
       <i class="fa fa-file-text" ngbTooltip="{{trip.description }}"></i>
       <i class="fa fa-pencil" ngbTooltip="Rediger"></i>
-      <i class="fa fa-times" ngbTooltip="Slet"></i>
+      <a mwlConfirmationPopover
+         role="button"
+         [message]="'Er du sikker på, at du vil slette turen<br>\'' + trip.name + '\'?'"
+         [confirmButtonType]="'danger'"
+         [confirmText]="'Slet'"
+         [cancelText]="'Annuller'"
+         placement="left"
+         (confirm)="removeTrip(trip)">
+        <i class="fa fa-trash" ngbTooltip="Slet"></i>
+      </a>
     </td>
   </tr>
   </tbody>

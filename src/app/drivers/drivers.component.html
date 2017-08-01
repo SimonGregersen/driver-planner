@@ -11,20 +11,33 @@
         <th>Kaldenavn</th>
         <th>Fulde navn</th>
         <th>Fødselsdag</th>
+        <th class="w-5 hidden-print"></th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let driver of dataStore.drivers | async">
+      <tr *ngFor="let driver of drivers | async">
         <th>{{driver.displayName}}</th>
         <td>{{driver.name}}</td>
         <td>{{driver.birthday | date: 'yyyy-MM-dd'}}</td>
+        <td class="hidden-print">
+          <a mwlConfirmationPopover
+             role="button"
+             [message]="'Er du sikker på, at du vil slette chaufføren<br>\'' + driver.displayName + '\'?'"
+             [confirmButtonType]="'danger'"
+             [confirmText]="'Slet'"
+             [cancelText]="'Annuller'"
+             placement="left"
+             (confirm)="removeDriver(driver)">
+            <i class="fa fa-trash" ngbTooltip="Slet"></i>
+          </a>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
 </div>
-<h4 class="mt-5 mb-3">Opret chauffør</h4>
-<form [formGroup]="driverForm" (ngSubmit)="create()">
+<h4 class="mt-5 mb-3 hidden-print">Opret chauffør</h4>
+<form [formGroup]="driverForm" (ngSubmit)="create()" class="hidden-print">
   <div class="form-group row"
        [class.has-danger]="driverForm.controls['displayName'] && !driverForm.controls['displayName'].valid && driverForm.controls['displayName'].dirty">
     <label for="nickname" class="col-2 col-form-label">Kaldenavn</label>

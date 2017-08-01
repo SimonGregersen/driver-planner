@@ -4,4 +4,5 @@ export interface Vehicle extends AngularFireObject {
   brand: string;
   regNo: string;
   latestInspection: Date;
+  deleted: boolean;
 }

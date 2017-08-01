@@ -12,14 +12,27 @@
         <th>Mærke</th>
         <th>Reg. nr.</th>
         <th>Sidst synet</th>
+        <th class="w-5 hidden-print"></th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let vehicle of dataStore.vehicles | async">
+      <tr *ngFor="let vehicle of vehicles | async">
         <th>{{vehicle.displayName}}</th>
         <td>{{vehicle.brand}}</td>
         <td>{{vehicle.regNo}}</td>
         <td>{{vehicle.latestInspection | date: 'yyyy-MM-dd'}}</td>
+        <td class="hidden-print">
+          <a mwlConfirmationPopover
+             role="button"
+             [message]="'Er du sikker på, at du vil slette køretøjet<br>\'' + vehicle.displayName + '\'?'"
+             [confirmButtonType]="'danger'"
+             [confirmText]="'Slet'"
+             [cancelText]="'Annuller'"
+             placement="left"
+             (confirm)="removeVehicle(vehicle)">
+            <i class="fa fa-trash" ngbTooltip="Slet"></i>
+          </a>
+        </td>
       </tr>
       </tbody>
     </table>

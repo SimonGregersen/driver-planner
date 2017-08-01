@@ -6,15 +6,18 @@ import {Utility} from './utility';
 import {Driver} from './driver';
 import {Observable} from 'rxjs/Observable';
 import {Vehicle} from './vehicle';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class DataStore implements OnInit {
-  public drivers: FirebaseListObservable<Driver[]>;
-  public vehicles: FirebaseListObservable<Vehicle[]>;
+  private drivers$: FirebaseListObservable<Driver[]>;
+  private vehicles$: FirebaseListObservable<Vehicle[]>;
+  private trips: FirebaseListObservable<Trip[]>;
 
   constructor(private db: AngularFireDatabase) {
-    this.drivers = this.db.list('/drivers');
-    this.vehicles = this.db.list('/vehicles');
+    this.drivers$ = this.db.list('/drivers');
+    this.vehicles$ = this.db.list('/vehicles');
+    this.trips = this.db.list('/trips');
   }
 
   ngOnInit(): void {
@@ -43,22 +46,47 @@ export class DataStore implements OnInit {
       drivers: drivers || [],
       vehicles: vehicles || []
     };
-    const trips = this.db.list('/trips');
-    trips.push(trip);
+    return this.trips.push(trip);
+  }
+
+  removeTrip(trip: Trip) {
+    return this.trips.remove(trip);
+  }
+
+  getAllDrivers(): Observable<Driver[]> {
+    return this.drivers$;
   }
 
   addDriver(displayName: string, name: string, birthday: Date) {
-    const driver = {displayName, name, birthday: birthday.getTime()};
-    this.drivers.push(driver)
+    const driver = {displayName, name, birthday: (birthday) ? birthday.getTime() : null, deleted: false};
+    return this.drivers$.push(driver)
+  }
+
+  deleteDriver(driver: Driver) {
+    return this.drivers$.update(driver.$key, {deleted: true});
   }
 
   getDriver(key: string): Observable<Driver> {
     return this.db.object(`/drivers/${key}`);
   }
 
+  getAllVehicles(): Observable<Vehicle[]> {
+    return this.vehicles$;
+  }
+
   addVehicle(displayName: string, brand: string, regNo: string, latestInspection: Date) {
-    const vehicle = {displayName, brand, regNo, latestInspection: latestInspection.getTime()};
-    this.vehicles.push(vehicle);
+    const vehicle = {
+      displayName,
+      brand,
+      regNo,
+      latestInspection: (latestInspection) ? latestInspection.getTime() : null,
+      deleted: false
+    };
+    this.vehicles$.push(vehicle);
+  }
+
+  deleteVehicle(vehicle: Vehicle) {
+    return this.vehicles$.update(vehicle.$key, {deleted: true});
   }
 
   getVehicle(key: string): Observable<Vehicle> {

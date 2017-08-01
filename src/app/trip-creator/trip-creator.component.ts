@@ -28,9 +28,11 @@ export class TripCreatorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataStore.drivers
+    this.dataStore.getAllDrivers()
+      .map(Utility.filterDeleted)
       .subscribe(ds => this.availableDrivers = ds.map(d => ({id: d.$key, name: d.displayName})));
-    this.dataStore.vehicles
+    this.dataStore.getAllVehicles()
+      .map(Utility.filterDeleted)
       .subscribe(vs => this.availableVehicles = vs.map(v => ({id: v.$key, name: v.displayName})));
   }
 

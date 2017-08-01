@@ -8,7 +8,9 @@
   <div class="col-12 col-lg-3 push-lg-9 hidden-print">
     <aside>
       <div class="list-group mb-4">
-        <h5>Dato <small>{{ utility.toJSDate(selectedDate) | date : 'mediumDate'}}</small></h5>
+        <h5>Dato
+          <small>{{ utility.toJSDate(selectedDate) | date : 'mediumDate'}}</small>
+        </h5>
         <div class="form-group">
           <ngb-datepicker [(ngModel)]="selectedDate"
                           [showWeekNumbers]="true">
@@ -20,7 +22,7 @@
       <div class="list-group">
         <h5>Chauffører</h5>
         <button
-          *ngFor="let driver of dataStore.drivers | async"
+          *ngFor="let driver of dataStore.getAllDrivers() | async"
           type="button"
           class="list-group-item list-group-item-action text-truncate"
           [class.active]="selectedDriver?.$key === driver?.$key"

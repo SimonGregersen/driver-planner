@@ -17,4 +17,8 @@ export class TripsComponent implements OnInit {
   ngOnInit() {
   }
 
+  removeTrip(trip: Trip) {
+    this.dataStore.removeTrip(trip);
+  }
+
 }
