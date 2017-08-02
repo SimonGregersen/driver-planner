@@ -8,14 +8,11 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './trips.component.html',
   styleUrls: ['./trips.component.css']
 })
-export class TripsComponent implements OnInit {
+export class TripsComponent {
   @Input() trips: Trip[];
   beingEdited: Trip;
 
   constructor(public dataStore: DataStore, private modalService: NgbModal) {
-  }
-
-  ngOnInit() {
   }
 
   removeTrip(trip: Trip) {

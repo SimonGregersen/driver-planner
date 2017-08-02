@@ -1,18 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataStore} from '../data.service';
 import {IMultiSelectOption} from 'angular-2-dropdown-multiselect';
 import {Utility} from '../utility';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-trip-creator',
   templateUrl: './trip-creator.component.html',
   styleUrls: ['./trip-creator.component.css']
 })
-export class TripCreatorComponent implements OnInit {
+export class TripCreatorComponent implements OnInit, OnDestroy {
   availableDrivers: IMultiSelectOption[];
   availableVehicles: IMultiSelectOption[];
   tripForm: FormGroup;
+  private driversSubscription: Subscription;
+  private vehiclesSubscription: Subscription;
 
   constructor(private dataStore: DataStore, private fb: FormBuilder) {
     this.tripForm = this.fb.group({
@@ -28,12 +31,18 @@ export class TripCreatorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataStore.getAllDrivers()
+    this.driversSubscription = this.dataStore.getAllDrivers()
       .map(Utility.filterDeleted)
       .subscribe(ds => this.availableDrivers = ds.map(d => ({id: d.$key, name: d.displayName})));
-    this.dataStore.getAllVehicles()
+    this.vehiclesSubscription = this.dataStore.getAllVehicles()
       .map(Utility.filterDeleted)
       .subscribe(vs => this.availableVehicles = vs.map(v => ({id: v.$key, name: v.displayName})));
+  }
+
+
+  ngOnDestroy(): void {
+    if (this.driversSubscription) this.driversSubscription.unsubscribe();
+    if (this.vehiclesSubscription) this.vehiclesSubscription.unsubscribe();
   }
 
   onSubmit(): void {

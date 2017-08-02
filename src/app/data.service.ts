@@ -53,12 +53,8 @@ export class DataStore implements OnInit {
   }
 
   updateTrip(trip: Trip, updates: any) {
-    if (updates.start) {
-      updates.start = updates.start.getTime();
-    }
-    if (updates.end) {
-      updates.end = updates.end.getTime();
-    }
+    if (updates.start) updates.start = updates.start.getTime();
+    if (updates.end) updates.end = updates.end.getTime();
     this.trips$.update(trip.$key, updates);
   }
 

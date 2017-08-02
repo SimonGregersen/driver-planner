@@ -1,20 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import {DataStore} from '../data.service';
 import {Trip} from '../trip';
 import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import {Driver} from '../driver';
 import {Utility} from '../utility';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-day-plans',
   templateUrl: './day-plans.component.html',
   styleUrls: ['./day-plans.component.css']
 })
-export class DayPlansComponent implements OnInit {
+export class DayPlansComponent implements OnInit, OnDestroy {
   utility = Utility;
-  trips: Trip[];
   filteredTrips: Trip[];
+  private trips: Trip[];
+  private tripsSubscription: Subscription;
   private _selectedDriver: Driver = null;
   private _selectedDate: NgbDate;
 
@@ -23,6 +25,10 @@ export class DayPlansComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedDate = this.calendar.getToday();
+  }
+
+  ngOnDestroy(): void {
+    if (this.tripsSubscription) this.tripsSubscription.unsubscribe();
   }
 
   set selectedDriver(driver: Driver) {
@@ -44,8 +50,9 @@ export class DayPlansComponent implements OnInit {
   }
 
   set selectedDate(date: NgbDate) {
+    if (this.tripsSubscription) this.tripsSubscription.unsubscribe();
     this._selectedDate = date;
-    this.dataStore.getTrips(date).subscribe(trips => {
+    this.tripsSubscription = this.dataStore.getTrips(date).subscribe(trips => {
       this.trips = this.filteredTrips = trips;
       this.filterTripsByDriver();
     });
@@ -53,10 +60,6 @@ export class DayPlansComponent implements OnInit {
 
   get selectedDate(): NgbDate {
     return this._selectedDate;
-  }
-
-  print() {
-    window.print();
   }
 
   private filterTripsByDriver(): void {

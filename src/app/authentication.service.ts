@@ -13,8 +13,9 @@ export class AuthenticationService {
   }
 
   logout() {
-    this.af.auth.signOut();
-    this.router.navigate(['/login']);
+    this.af.auth.signOut()
+      .then(() => this.router.navigate(['/login']))
+      .catch(err => console.log(err));
   }
 
 }
