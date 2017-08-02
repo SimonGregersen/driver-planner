@@ -1,4 +1,4 @@
-<form [formGroup]="tripForm" (ngSubmit)="onSubmit(); save.emit()">
+<form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
   <div class="form-group row"
        [class.has-danger]="!tripForm.controls['name'].valid && tripForm.controls['name'].dirty">
     <label for="name" class="col-2 col-form-label">Navn</label>

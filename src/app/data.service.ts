@@ -40,7 +40,7 @@ export class DataStore implements OnInit {
     }));
   }
 
-  addTrip(start: Date, end: Date, name: string, description: string, drivers: any[], vehicles: any[]) {
+  addTrip(start: Date, end: Date, name: string, description: string, drivers: Driver[], vehicles: Vehicle[]) {
     const trip = {
       start: start.getTime(),
       end: (end) ? end.getTime() : null,
@@ -53,11 +53,11 @@ export class DataStore implements OnInit {
   }
 
   updateTrip(trip: Trip, updates: any) {
-    if (trip.start) {
-      updates.start = trip.start.getTime();
+    if (updates.start) {
+      updates.start = updates.start.getTime();
     }
-    if (trip.end) {
-      updates.end = trip.end.getTime();
+    if (updates.end) {
+      updates.end = updates.end.getTime();
     }
     this.trips$.update(trip.$key, updates);
   }

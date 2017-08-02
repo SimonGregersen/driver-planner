@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthenticationService} from './authentication.service';
-import {Router} from '@angular/router';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-root',
@@ -8,19 +8,13 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
-  loggedIn: Boolean = false;
+export class AppComponent {
+  loggedIn = false;
 
-  constructor(private authService: AuthenticationService, private router: Router) {
-    this.authService.af.auth.onAuthStateChanged((auth) => {
-        this.loggedIn = (auth !== null);
-        if (auth == null) {
-          this.router.navigate(['login']);
-        } else {
-          this.router.navigate(['']);
-        }
-      }
-    );
+  constructor(private authService: AuthenticationService) {
+    this.authService.af.auth.onAuthStateChanged(auth => {
+      this.loggedIn = !isNullOrUndefined(auth);
+    });
   }
 
   logout() {
@@ -30,9 +24,5 @@ export class AppComponent implements OnInit {
   print() {
     window.print();
   }
-
-  ngOnInit(): void {
-  }
-
 
 }

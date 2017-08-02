@@ -12,7 +12,6 @@ import {Trip} from 'app/trip';
 })
 export class TripEditorComponent implements OnInit, OnChanges {
   @Input() trip: Trip;
-  @Output() save: EventEmitter<void> = new EventEmitter();
   availableDrivers: IMultiSelectOption[];
   availableVehicles: IMultiSelectOption[];
   tripForm: FormGroup;
