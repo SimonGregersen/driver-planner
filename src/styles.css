@@ -8,12 +8,20 @@ body {
   padding-bottom: 50px;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .list-group button {
   outline: none;
 }
 
 .w-5 {
   width: 5% !important;
+}
+
+.w-6 {
+  width: 6% !important;
 }
 
 .w-7_5 {
@@ -24,16 +32,30 @@ body {
   width: 15% !important;
 }
 
-.w-35 {
-  width: 35% !important;
-}
-
 .icons {
   color: #464A4C;
 }
 
 @media print {
   html, body {
-    font-size: 11px;
+    display: table;
+    table-layout: fixed;
+    height: auto;
+    width: auto;
+    margin-top: 0;
+    padding-top: 0;
+    font-size: 12pt;
   }
+
+  ::first-letter {
+    margin-top: 0;
+  }
+
 }
+
+@page {
+  size: A4 portrait;
+  margin: 5mm 5mm 5mm 5mm;
+}
+
+

@@ -26,7 +26,7 @@ export class DataStore implements OnInit {
   getTrips(from: NgbDate, to?: NgbDate): Observable<Trip[]> {
     const fromDate = Utility.toJSDate(from);
     const toDate = (to) ? Utility.toJSDate(to) : new Date(fromDate);
-    toDate.setHours(24, 0, 0, 0);
+    toDate.setHours(24, 0, 0, 0); // midnight day after
 
     return this.db.list('/trips', {
       query: {

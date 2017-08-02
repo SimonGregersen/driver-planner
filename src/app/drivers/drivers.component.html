@@ -8,9 +8,9 @@
     <table class="table table-hover table-sm">
       <thead>
       <tr>
-        <th>Kaldenavn</th>
+        <th class="w-25">Kaldenavn</th>
         <th>Fulde navn</th>
-        <th>Fødselsdag</th>
+        <th class="w-25">Fødselsdag</th>
         <th class="w-5 hidden-print"></th>
       </tr>
       </thead>
@@ -21,7 +21,7 @@
         <td>{{driver.birthday | date: 'yyyy-MM-dd'}}</td>
         <td class="hidden-print">
           <a mwlConfirmationPopover
-             role="button"
+             class="cursor pull-right"
              [message]="'Er du sikker på, at du vil slette chaufføren<br>\'' + driver.displayName + '\'?'"
              [confirmButtonType]="'danger'"
              [confirmText]="'Slet'"

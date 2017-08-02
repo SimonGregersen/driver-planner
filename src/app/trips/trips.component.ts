@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Trip} from '../trip';
 import {DataStore} from '../data.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';

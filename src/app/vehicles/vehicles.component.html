@@ -9,9 +9,9 @@
       <thead>
       <tr>
         <th>Kaldenavn</th>
-        <th>Mærke</th>
-        <th>Reg. nr.</th>
-        <th>Sidst synet</th>
+        <th class="w-25">Mærke</th>
+        <th class="w-25">Reg. nr.</th>
+        <th class="w-25">Sidst synet</th>
         <th class="w-5 hidden-print"></th>
       </tr>
       </thead>
@@ -23,7 +23,7 @@
         <td>{{vehicle.latestInspection | date: 'yyyy-MM-dd'}}</td>
         <td class="hidden-print">
           <a mwlConfirmationPopover
-             role="button"
+             class="pointer pull-right"
              [message]="'Er du sikker på, at du vil slette køretøjet<br>\'' + vehicle.displayName + '\'?'"
              [confirmButtonType]="'danger'"
              [confirmText]="'Slet'"
