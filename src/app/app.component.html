@@ -1,26 +1,26 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse hidden-print">
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse hidden-print" *ngIf="loggedIn">
   <div class="container">
-    <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse"
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#topbar" aria-controls="topbar" aria-expanded="false"
             aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <span class="navbar-brand hidden-sm-down"><i class="fa fa-bus"></i></span>
-    <div class="collapse navbar-collapse" id="topbar" *ngIf="loggedIn">
+    <a class="navbar-brand" href="#"><i class="fa fa-bus"></i></a>
+    <div class="collapse navbar-collapse" id="topbar">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" routerLink="/overview" routerLinkActive="active">Oversigt</a></li>
+        <!--<li class="nav-item"><a class="nav-link" routerLink="/overview" routerLinkActive="active">Oversigt</a></li>-->
         <li class="nav-item"><a class="nav-link" routerLink="/day-plans" routerLinkActive="active">Dagsplaner</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/driver-plans" routerLinkActive="active">Chaufførplaner</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/templates" routerLinkActive="active">Skabeloner</a></li>
+        <!--<li class="nav-item"><a class="nav-link" routerLink="/driver-plans" routerLinkActive="active">Chaufførplaner</a></li>-->
+        <!--<li class="nav-item"><a class="nav-link" routerLink="/templates" routerLinkActive="active">Skabeloner</a></li>-->
         <li class="nav-item"><a class="nav-link" routerLink="/drivers" routerLinkActive="active">Chauffører</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/vehicles" routerLinkActive="active">Køretøjer</a></li>
       </ul>
       <ul class="navbar-nav icons topbar-icons">
         <li class="nav-item">
-          <a class="nav-link" role="button" (click)="print()" ngbTooltip="Print" placement="bottom"><i class="fa fa-print"></i></a>
+          <a class="nav-link pointer" (click)="print()" ngbTooltip="Print" placement="bottom">Print</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" role="button" (click)="logout()" ngbTooltip="Log ud" placement="bottom"><i class="fa fa-sign-out"></i></a>
+          <a class="nav-link pointer" (click)="logout()" ngbTooltip="Log ud" placement="bottom">Log ud</a>
         </li>
       </ul>
     </div>

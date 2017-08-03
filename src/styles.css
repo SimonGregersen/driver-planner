@@ -8,6 +8,14 @@ body {
   padding-bottom: 50px;
 }
 
+@media (max-width: 767px) {
+  .container {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -15,6 +23,8 @@ body {
 .list-group button {
   outline: none;
 }
+
+/* Extension of Bootstrap's Flexbox width classes */
 
 .w-5 {
   width: 5% !important;
@@ -35,6 +45,8 @@ body {
 .icons {
   color: #464A4C;
 }
+
+/* Print */
 
 @media print {
   html, body {
