@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import {DataStore} from '../data.service';
 import {Trip} from '../trip';
-import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {Driver} from '../driver';
-import {Utility} from '../utility';
 import {Subscription} from 'rxjs/Subscription';
+import {NgbUtility} from '../ngb-date-utility';
+import {Utility} from '../utility';
 
 @Component({
   selector: 'app-day-plans',
@@ -13,14 +13,13 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./day-plans.component.css']
 })
 export class DayPlansComponent implements OnInit, OnDestroy {
-  utility = Utility;
   filteredTrips: Trip[];
   private trips: Trip[];
   private tripsSubscription: Subscription;
   private _selectedDriver: Driver = null;
-  private _selectedDate: NgbDate;
+  private _selectedDate: NgbDateStruct;
 
-  constructor(public dataStore: DataStore, private calendar: NgbCalendar) {
+  constructor(public dataStore: DataStore, public ngbUtility: NgbUtility, private calendar: NgbCalendar) {
   }
 
   ngOnInit(): void {
@@ -32,9 +31,7 @@ export class DayPlansComponent implements OnInit, OnDestroy {
   }
 
   set selectedDriver(driver: Driver) {
-    if (!this.trips) {
-      return;
-    }
+    if (!this.trips) return;
 
     if (this._selectedDriver && driver.$key === this._selectedDriver.$key) {
       this._selectedDriver = null;
@@ -49,7 +46,7 @@ export class DayPlansComponent implements OnInit, OnDestroy {
     return this._selectedDriver;
   }
 
-  set selectedDate(date: NgbDate) {
+  set selectedDate(date: NgbDateStruct) {
     if (this.tripsSubscription) this.tripsSubscription.unsubscribe();
     this._selectedDate = date;
     this.tripsSubscription = this.dataStore.getTrips(date).subscribe(trips => {
@@ -58,19 +55,14 @@ export class DayPlansComponent implements OnInit, OnDestroy {
     });
   }
 
-  get selectedDate(): NgbDate {
+  get selectedDate(): NgbDateStruct {
     return this._selectedDate;
   }
 
   private filterTripsByDriver(): void {
-    if (!this._selectedDriver) {
-      return;
-    }
-    this.filteredTrips = this.trips.filter(t => this.isAssigned(this._selectedDriver, t));
+    if (!this._selectedDriver) return;
+    this.filteredTrips = this.trips.filter(t => Utility.isAssigned(this._selectedDriver, t));
   }
 
-  private isAssigned(driver: Driver, trip: Trip): boolean {
-    const drivers = trip.drivers || [];
-    return drivers.includes(driver.$key);
-  }
+
 }

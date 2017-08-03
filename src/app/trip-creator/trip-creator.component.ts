@@ -4,6 +4,7 @@ import {IMultiSelectOption} from 'angular-2-dropdown-multiselect';
 import {Utility} from '../utility';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
+import {NgbUtility} from 'app/ngb-date-utility';
 
 @Component({
   selector: 'app-trip-creator',
@@ -17,7 +18,7 @@ export class TripCreatorComponent implements OnInit, OnDestroy {
   private driversSubscription: Subscription;
   private vehiclesSubscription: Subscription;
 
-  constructor(private dataStore: DataStore, private fb: FormBuilder) {
+  constructor(private dataStore: DataStore, private fb: FormBuilder, private ngbUtility: NgbUtility) {
     this.tripForm = this.fb.group({
       name: ['', Validators.required],
       fromDate: [null, Validators.required],
@@ -47,8 +48,8 @@ export class TripCreatorComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     const val = this.tripForm.value;
-    const from = Utility.toJSDate(val.fromDate, val.fromTime);
-    const to = (val.toTime) ? Utility.toJSDate(val.toDate, val.toTime) : null;
+    const from = this.ngbUtility.toJSDate(val.fromDate, val.fromTime);
+    const to = (val.toTime) ? this.ngbUtility.toJSDate(val.toDate, val.toTime) : null;
     this.dataStore.addTrip(from, to, val.name, val.description, val.drivers, val.vehicles);
     this.tripForm.reset();
   }

@@ -1,12 +1,12 @@
 import {Injectable, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {Trip} from './trip';
-import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import {Utility} from './utility';
 import {Driver} from './driver';
 import {Observable} from 'rxjs/Observable';
 import {Vehicle} from './vehicle';
 import 'rxjs/add/operator/do';
+import {NgbUtility} from './ngb-date-utility';
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class DataStore implements OnInit {
@@ -14,7 +14,7 @@ export class DataStore implements OnInit {
   private vehicles$: FirebaseListObservable<Vehicle[]>;
   private trips$: FirebaseListObservable<Trip[]>;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase, private ngbUtility: NgbUtility) {
     this.drivers$ = this.db.list('/drivers');
     this.vehicles$ = this.db.list('/vehicles');
     this.trips$ = this.db.list('/trips');
@@ -23,9 +23,9 @@ export class DataStore implements OnInit {
   ngOnInit(): void {
   }
 
-  getTrips(from: NgbDate, to?: NgbDate): Observable<Trip[]> {
-    const fromDate = Utility.toJSDate(from);
-    const toDate = (to) ? Utility.toJSDate(to) : new Date(fromDate);
+  getTrips(from: NgbDateStruct, to?: NgbDateStruct): Observable<Trip[]> {
+    const fromDate = this.ngbUtility.toJSDate(from);
+    const toDate = (to) ? this.ngbUtility.toJSDate(to) : new Date(fromDate);
     toDate.setHours(24, 0, 0, 0); // midnight day after
 
     return this.db.list('/trips', {
@@ -55,7 +55,7 @@ export class DataStore implements OnInit {
   updateTrip(trip: Trip, updates: any) {
     if (updates.start) updates.start = updates.start.getTime();
     if (updates.end) updates.end = updates.end.getTime();
-    this.trips$.update(trip.$key, updates);
+    return this.trips$.update(trip.$key, updates);
   }
 
   removeTrip(trip: Trip) {

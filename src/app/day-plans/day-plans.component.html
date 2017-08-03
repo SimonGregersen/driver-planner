@@ -1,22 +1,28 @@
-<div class="row mt-5">
+<div class="row mt-5 mb-3 hidden-print">
   <div class="col-12">
-    <h2 class="font-weight-bold hidden-print">Dagsplaner</h2>
-    <h4 class="visible-print-block">{{ utility.toJSDate(selectedDate) | date : 'fullDate'}}</h4>
+    <h2 class="font-weight-bold">Dagsplaner</h2>
   </div>
 </div>
-<div class="row mt-5">
+<div class="visible-print-block">
+  <h4 class="font-weight-bold">
+    Dagsplan
+    <small>{{ ngbUtility.toJSDate(selectedDate) | date : 'fullDate'}}</small>
+  </h4>
+  <h5  *ngIf="selectedDriver">
+    Chauffør: {{ selectedDriver.displayName }}
+  </h5>
+</div>
+<div class="row">
   <div class="col-12 col-lg-3 push-lg-9 hidden-print">
     <aside>
       <div class="list-group mb-4">
         <h5>Dato
-          <small>{{ utility.toJSDate(selectedDate) | date : 'mediumDate'}}</small>
+          <small>{{ ngbUtility.toJSDate(selectedDate) | date : 'mediumDate'}}</small>
         </h5>
         <div class="form-group">
           <ngb-datepicker [(ngModel)]="selectedDate"
                           [showWeekNumbers]="true">
           </ngb-datepicker>
-          <div class="input-group">
-          </div>
         </div>
       </div>
       <div class="list-group">
@@ -24,8 +30,7 @@
         <button
           *ngFor="let driver of dataStore.getAllDrivers() | async"
           type="button"
-          role="button"
-          class="list-group-item list-group-item-action text-truncate"
+          class="list-group-item list-group-item-action text-truncate pointer"
           [class.active]="selectedDriver?.$key === driver?.$key"
           (click)="selectedDriver = driver">
           {{driver.displayName}}
@@ -35,6 +40,7 @@
   </div>
   <div class="col-12 col-lg-9 pull-lg-3">
     <main>
+      <h5 class="mt-4 mb-4">{{ ngbUtility?.toJSDate(selectedDate) | date : 'EEEE, d MMMM'}}</h5>
       <app-trips [trips]="filteredTrips"></app-trips>
       <app-trip-creator class="hidden-print"></app-trip-creator>
     </main>

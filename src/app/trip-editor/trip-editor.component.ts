@@ -1,10 +1,11 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IMultiSelectOption} from 'angular-2-dropdown-multiselect';
 import {DataStore} from '../data.service';
 import {Utility} from '../utility';
 import {Trip} from 'app/trip';
 import {Subscription} from 'rxjs/Subscription';
+import {NgbUtility} from '../ngb-date-utility';
 
 @Component({
   selector: 'app-trip-editor',
@@ -13,13 +14,14 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class TripEditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() trip: Trip;
+  @Output() save: EventEmitter<void> = new EventEmitter();
   availableDrivers: IMultiSelectOption[];
   availableVehicles: IMultiSelectOption[];
   tripForm: FormGroup;
   private driversSubscription: Subscription;
   private vehiclesSubscription: Subscription;
 
-  constructor(private dataStore: DataStore, private fb: FormBuilder) {
+  constructor(private dataStore: DataStore, private fb: FormBuilder, private ngbUtility: NgbUtility) {
     this.tripForm = this.fb.group({
       name: ['', Validators.required],
       fromDate: [null, Validators.required],
@@ -44,10 +46,10 @@ export class TripEditorComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     const start = new Date(this.trip.start);
     const end = (this.trip.end) ? new Date(this.trip.end) : null;
-    const fromDate = Utility.toNgbDate(start);
-    const fromTime = Utility.toNgbTime(start);
-    const toDate = (end) ? Utility.toNgbDate(end) : null;
-    const toTime = (end) ? Utility.toNgbTime(end) : null;
+    const fromDate = this.ngbUtility.getDate(start);
+    const fromTime = this.ngbUtility.getTime(start);
+    const toDate = (end) ? this.ngbUtility.getDate(end) : null;
+    const toTime = (end) ? this.ngbUtility.getTime(end) : null;
 
     this.tripForm.patchValue({
       ...this.trip,
@@ -65,13 +67,13 @@ export class TripEditorComponent implements OnInit, OnChanges, OnDestroy {
 
   onSubmit() {
     const val: Trip = this.formToTrip(this.tripForm.value);
-    this.dataStore.updateTrip(this.trip, val);
+    this.dataStore.updateTrip(this.trip, val).then(() => this.save.emit());
   }
 
   formToTrip(form: any): Trip {
     return <Trip>{
-      start: Utility.toJSDate(form.fromDate, form.fromTime),
-      end: Utility.toJSDate(form.toDate, form.toTime),
+      start: this.ngbUtility.toJSDate(form.fromDate, form.fromTime),
+      end: this.ngbUtility.toJSDate(form.toDate, form.toTime),
       name: form.name || '',
       description: form.description || '',
       drivers: form.drivers || [],
