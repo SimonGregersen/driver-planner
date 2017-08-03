@@ -9,7 +9,7 @@
   <h4 class="font-weight-bold">
     Periodeplan
     <small>
-      {{ ngbUtility.toJSDate(from) | date : 'shortDate'}} - {{ ngbUtility.toJSDate(to) | date : 'shortDate'}}
+      {{ ngbUtility.toMoment(from) | date : 'shortDate'}} - {{ ngbUtility.toMoment(to) | date : 'shortDate'}}
     </small>
   </h4>
   <h5 *ngIf="selectedDriver">
@@ -57,10 +57,11 @@
   <div class="col-12 col-lg-9 pull-lg-3">
     <main>
       <div *ngFor="let date of range">
-        <h5 class="mt-4 mb-4">{{ ngbUtility?.toJSDate(date) | date : 'EEEE, d MMMM'}}</h5>
-        <app-trips #t [trips]="filterByDate(filteredTrips, date)"></app-trips>
+        <h5 class="mt-4 mb-4">{{ ngbUtility?.toMoment(date) | date : 'EEEE, d MMMM'}}</h5>
+        <app-trips [trips]="filterByDate(filteredTrips, date)"
+                   (edit)="edit($event)"
+                   (remove)="removeTrip($event)"></app-trips>
       </div>
     </main>
   </div>
 </div>
-

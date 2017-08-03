@@ -39,7 +39,7 @@
     <td>
       <div class="pull-right icons hidden-print">
         <a class="pointer"
-           (click)="editTrip(content, trip)">
+           (click)="edit.emit(trip)">
           <i class="fa fa-pencil" ngbTooltip="Rediger"></i>
         </a>
         <a mwlConfirmationPopover
@@ -49,7 +49,7 @@
            [confirmText]="'Slet'"
            [cancelText]="'Annuller'"
            placement="left"
-           (confirm)="removeTrip(trip)">
+           (confirm)="remove.emit(trip)">
           <i class="fa fa-trash" ngbTooltip="Slet"></i>
         </a>
       </div>
@@ -57,16 +57,3 @@
   </tr>
   </tbody>
 </table>
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Rediger
-      <small>{{beingEdited.name}}</small>
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="d()">
-      <span>&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <app-trip-editor [trip]="beingEdited" (save)="c()"></app-trip-editor>
-  </div>
-</ng-template>

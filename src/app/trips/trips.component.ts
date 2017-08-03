@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Trip} from '../trip';
 import {DataStore} from '../data.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -13,13 +13,15 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class TripsComponent implements OnInit, OnDestroy {
   @Input() trips: Trip[] = [];
-  beingEdited: Trip;
+  @Output() edit = new EventEmitter<Trip>();
+  @Output() remove = new EventEmitter<Trip>();
+
   drivers: Driver[] = [];
   vehicles: Vehicle[] = [];
   private driversSubscription: Subscription;
   private vehiclesSubscription: Subscription;
 
-  constructor(public dataStore: DataStore, private modalService: NgbModal) {
+  constructor(public dataStore: DataStore) {
   }
 
   ngOnInit(): void {
@@ -39,14 +41,4 @@ export class TripsComponent implements OnInit, OnDestroy {
   getVehicle(key: string): Vehicle {
     return this.vehicles.find(v => v.$key === key);
   }
-
-  removeTrip(trip: Trip) {
-    this.dataStore.removeTrip(trip);
-  }
-
-  editTrip(content, trip: Trip) {
-    this.beingEdited = trip;
-    this.modalService.open(content, {size: 'lg'});
-  }
-
 }

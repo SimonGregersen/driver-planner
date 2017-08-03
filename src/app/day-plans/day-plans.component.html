@@ -6,7 +6,7 @@
 <div class="visible-print-block">
   <h4 class="font-weight-bold">
     Dagsplan
-    <small>{{ ngbUtility.toJSDate(selectedDate) | date }}</small>
+    <small>{{ ngbUtility.toMoment(selectedDate) | date }}</small>
   </h4>
   <h5 *ngIf="selectedDriver">
     Chauffør: {{ selectedDriver.displayName }}
@@ -17,7 +17,7 @@
     <aside>
       <div class="list-group mb-4">
         <h5>Dato
-          <small>{{ ngbUtility.toJSDate(selectedDate) | date : 'mediumDate'}}</small>
+          <small>{{ ngbUtility.toMoment(selectedDate) | date : 'mediumDate'}}</small>
         </h5>
         <div class="form-group">
           <ngb-datepicker [(ngModel)]="selectedDate"
@@ -40,9 +40,31 @@
   </div>
   <div class="col-12 col-lg-9 pull-lg-3">
     <main>
-      <h5 class="mt-4 mb-4 hidden-print">{{ ngbUtility?.toJSDate(selectedDate) | date : 'EEEE, d MMMM'}}</h5>
-      <app-trips [trips]="filteredTrips"></app-trips>
-      <app-trip-creator class="hidden-print"></app-trip-creator>
+      <h5 class="mt-4 mb-4 hidden-print">{{ ngbUtility?.toMoment(selectedDate) | date : 'EEEE, d MMMM'}}</h5>
+      <app-trips [trips]="filteredTrips"
+                 (edit)="edit($event)"
+                 (remove)="removeTrip($event)">
+      </app-trips>
+      <app-trip-creator class="hidden-print"
+                        (create)="this.dataStore.addTrip($event)">
+      </app-trip-creator>
+      <div class="mt-3">
+        <h4>Indsæt skabelon</h4>
+        <ss-multiselect-dropdown [(ngModel)]="selectedTemplate"
+                                 [options]="availableTemplates"
+                                 [settings]="{dynamicTitleMaxItems: 10, enableSearch: true, selectionLimit: 1}"
+                                 [texts]="{defaultTitle: 'Vælg skabelon', searchPlaceholder: 'Søg'}">
+        </ss-multiselect-dropdown>
+        <button mwlConfirmationPopover
+                class="btn btn-primary"
+                [message]="'Er du sikker på, at du vil indsætte denne skabelon?'"
+                [confirmButtonType]="'success'"
+                [confirmText]="'Indsæt'"
+                [cancelText]="'Annuller'"
+                (confirm)="insertTemplate()">
+          Indsæt
+        </button>
+      </div>
     </main>
   </div>
 </div>

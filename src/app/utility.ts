@@ -1,5 +1,6 @@
 import {Driver} from './driver';
 import {Trip} from './trip';
+import {Moment} from 'moment';
 
 export class Utility {
   static filterDeleted(arr: any[]): any[] {
@@ -13,6 +14,10 @@ export class Utility {
 
   static sortByDisplayName(arr: any[]): any[] {
     return arr.sort((a, b) => a.displayName.localeCompare(b.displayName));
+  }
+
+  static copyDate(from: Moment, to: Moment): void {
+    to.set({year: from.get('year'), month: from.get('month'), date: from.get('date')});
   }
 
 }

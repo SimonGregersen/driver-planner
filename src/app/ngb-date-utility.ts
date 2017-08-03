@@ -3,6 +3,8 @@ import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import {Injectable} from '@angular/core';
 import {isNumber} from 'util';
 import {padNumber} from '@ng-bootstrap/ng-bootstrap/util/util';
+import {Moment} from 'moment';
+import * as moment from 'moment';
 
 @Injectable()
 export class NgbUtility {
@@ -10,19 +12,20 @@ export class NgbUtility {
   constructor(private calendar: NgbCalendar) {
   }
 
-  toJSDate(date: NgbDateStruct, time?: NgbTimeStruct): Date {
+  toMoment(date: NgbDateStruct, time?: NgbTimeStruct): Moment {
     if (!date) return null;
-    const dateString = `${date.year}-${isNumber(date.month) ? padNumber(date.month) : ''}-${isNumber(date.day) ? padNumber(date.day) : ''}`;
-    if (!time) return new Date(dateString + 'T00:00:00Z');
-    return new Date(date.year, date.month - 1, date.day, time.hour, time.minute, time.second);
+    const dateString = `${date.year}-${padNumber(date.month)}-${padNumber(date.day)}`;
+    if (!time) return moment(dateString, 'YYYY-MM-DD');
+    const timeString = `${padNumber(time.hour)}:${padNumber(time.minute)}`;
+    return moment(dateString + ' ' + timeString, 'YYYY-MM-DD HH:mm');
   }
 
-  getDate(date: Date): NgbDateStruct {
-    return {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()};
+  getDate(date: Moment): NgbDateStruct {
+    return {year: date.year(), month: date.month(), day: date.date() };
   }
 
-  getTime(date: Date): NgbTimeStruct {
-    return {hour: date.getHours(), minute: date.getMinutes(), second: date.getSeconds()};
+  getTime(date: Moment): NgbTimeStruct {
+    return {hour: date.hour(), minute: date.minute(), second: date.second()};
   }
 
   equals(one: NgbDateStruct, two: NgbDateStruct): boolean {

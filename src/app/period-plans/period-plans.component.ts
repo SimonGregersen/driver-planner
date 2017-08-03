@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCalendar, NgbDateStruct, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbUtility} from '../ngb-date-utility';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import {DataStore} from '../data.service';
@@ -7,6 +7,7 @@ import {Trip} from '../trip';
 import {Subscription} from 'rxjs/Subscription';
 import {Driver} from '../driver';
 import {Utility} from '../utility';
+import {TripEditorComponent} from '../trip-editor/trip-editor.component';
 
 @Component({
   selector: 'app-driver-plans',
@@ -32,7 +33,7 @@ export class PeriodPlansComponent implements OnDestroy, OnInit {
   isFrom = date => this.ngbUtility.equals(date, this.from);
   isTo = date => this.ngbUtility.equals(date, this.to);
 
-  constructor(public ngbUtility: NgbUtility, public dataStore: DataStore, private calendar: NgbCalendar) {
+  constructor(public ngbUtility: NgbUtility, public dataStore: DataStore, private calendar: NgbCalendar, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -59,6 +60,16 @@ export class PeriodPlansComponent implements OnDestroy, OnInit {
     }
   }
 
+  removeTrip(trip: Trip) {
+    this.dataStore.removeTrip(trip);
+  }
+
+  edit(trip: Trip) {
+    const modalRef = this.modalService.open(TripEditorComponent, {size: 'lg'});
+    modalRef.componentInstance.edit(trip, (t, u) => this.dataStore.updateTrip(t, u));
+  }
+
+
   fetchTrips(): void {
     this.range = this.ngbUtility.range(this.from, this.to);
     if (this.tripsSubscription) this.tripsSubscription.unsubscribe();
@@ -71,8 +82,8 @@ export class PeriodPlansComponent implements OnDestroy, OnInit {
   filterByDate(trips: Trip[], date: NgbDate): Trip[] {
     if (!trips || !trips.length) return [];
 
-    const start = this.ngbUtility.toJSDate(date);
-    const end = this.ngbUtility.toJSDate(this.calendar.getNext(NgbDate.from(date), 'd'));
+    const start = this.ngbUtility.toMoment(date);
+    const end = this.ngbUtility.toMoment(this.calendar.getNext(NgbDate.from(date), 'd'));
     return trips.filter(t => t.start >= start && t.start < end);
   }
 

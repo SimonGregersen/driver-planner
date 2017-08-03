@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DataStore} from '../data.service';
 import {IMultiSelectOption} from 'angular-2-dropdown-multiselect';
 import {Utility} from '../utility';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {NgbUtility} from 'app/ngb-date-utility';
+import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-trip-creator',
@@ -12,16 +13,21 @@ import {NgbUtility} from 'app/ngb-date-utility';
   styleUrls: ['./trip-creator.component.css']
 })
 export class TripCreatorComponent implements OnInit, OnDestroy {
+  @Output() create = new EventEmitter<{ start, end, name, description, drivers, vehicles }>();
+  @Input() showDate = true;
   availableDrivers: IMultiSelectOption[];
   availableVehicles: IMultiSelectOption[];
   tripForm: FormGroup;
   private driversSubscription: Subscription;
   private vehiclesSubscription: Subscription;
 
-  constructor(private dataStore: DataStore, private fb: FormBuilder, private ngbUtility: NgbUtility) {
+  constructor(private dataStore: DataStore, private fb: FormBuilder, private ngbUtility: NgbUtility, private calendar: NgbCalendar) {
+  }
+
+  ngOnInit() {
     this.tripForm = this.fb.group({
       name: ['', Validators.required],
-      fromDate: [null, Validators.required],
+      fromDate: (this.showDate) ? [null, Validators.required] : null,
       fromTime: null,
       toDate: null,
       toTime: null,
@@ -29,9 +35,7 @@ export class TripCreatorComponent implements OnInit, OnDestroy {
       vehicles: [[]],
       description: ''
     });
-  }
 
-  ngOnInit() {
     this.driversSubscription = this.dataStore.getAllDrivers()
       .map(Utility.filterDeleted)
       .subscribe(ds => this.availableDrivers = ds.map(d => ({id: d.$key, name: d.displayName})));
@@ -48,9 +52,15 @@ export class TripCreatorComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     const val = this.tripForm.value;
-    const from = this.ngbUtility.toJSDate(val.fromDate, val.fromTime);
-    const to = (val.toTime) ? this.ngbUtility.toJSDate(val.toDate, val.toTime) : null;
-    this.dataStore.addTrip(from, to, val.name, val.description, val.drivers, val.vehicles);
+    const trip = {
+      start: this.ngbUtility.toMoment(val.fromDate || this.calendar.getToday(), val.fromTime),
+      end: (val.toDate || val.toTime) ? this.ngbUtility.toMoment(val.toDate || this.calendar.getToday(), val.toTime) : null,
+      name: val.name,
+      description: val.description,
+      drivers: val.drivers,
+      vehicles: val.vehicles
+    };
+    this.create.emit(trip);
     this.tripForm.reset();
   }
 }

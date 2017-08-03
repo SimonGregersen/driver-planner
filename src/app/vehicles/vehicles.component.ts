@@ -30,7 +30,7 @@ export class VehiclesComponent implements OnInit {
 
   create() {
     const val = this.vehicleForm.value;
-    this.dataStore.addVehicle(val.displayName, val.brand, val.regNo, this.ngbUtility.toJSDate(val.latestInspection));
+    this.dataStore.addVehicle(val.displayName, val.brand, val.regNo, this.ngbUtility.toMoment(val.latestInspection));
     this.vehicleForm.reset();
   }
 

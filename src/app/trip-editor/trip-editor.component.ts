@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IMultiSelectOption} from 'angular-2-dropdown-multiselect';
 import {DataStore} from '../data.service';
@@ -6,22 +6,24 @@ import {Utility} from '../utility';
 import {Trip} from 'app/trip';
 import {Subscription} from 'rxjs/Subscription';
 import {NgbUtility} from '../ngb-date-utility';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-trip-editor',
   templateUrl: './trip-editor.component.html',
   styleUrls: ['./trip-editor.component.css']
 })
-export class TripEditorComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() trip: Trip;
-  @Output() save: EventEmitter<void> = new EventEmitter();
+export class TripEditorComponent implements OnInit, OnDestroy {
+  save: (trip: Trip, updates: any) => void;
+  trip: Trip;
   availableDrivers: IMultiSelectOption[];
   availableVehicles: IMultiSelectOption[];
   tripForm: FormGroup;
   private driversSubscription: Subscription;
   private vehiclesSubscription: Subscription;
 
-  constructor(private dataStore: DataStore, private fb: FormBuilder, private ngbUtility: NgbUtility) {
+  constructor(private dataStore: DataStore, private fb: FormBuilder, private ngbUtility: NgbUtility, public modal: NgbActiveModal) {
     this.tripForm = this.fb.group({
       name: ['', Validators.required],
       fromDate: [null, Validators.required],
@@ -43,9 +45,9 @@ export class TripEditorComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(vs => this.availableVehicles = vs.map(v => ({id: v.$key, name: v.displayName})));
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    const start = new Date(this.trip.start);
-    const end = (this.trip.end) ? new Date(this.trip.end) : null;
+  update() {
+    const start = moment(this.trip.start);
+    const end = (this.trip.end) ? moment(this.trip.end) : null;
     const fromDate = this.ngbUtility.getDate(start);
     const fromTime = this.ngbUtility.getTime(start);
     const toDate = (end) ? this.ngbUtility.getDate(end) : null;
@@ -66,14 +68,13 @@ export class TripEditorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onSubmit() {
-    const val: Trip = this.formToTrip(this.tripForm.value);
-    this.dataStore.updateTrip(this.trip, val).then(() => this.save.emit());
+    this.save(this.trip, this.formToTrip(this.tripForm.value));
   }
 
-  formToTrip(form: any): Trip {
-    return <Trip>{
-      start: this.ngbUtility.toJSDate(form.fromDate, form.fromTime),
-      end: this.ngbUtility.toJSDate(form.toDate, form.toTime),
+  formToTrip(form: any) {
+    return {
+      start: this.ngbUtility.toMoment(form.fromDate, form.fromTime),
+      end: this.ngbUtility.toMoment(form.toDate, form.toTime),
       name: form.name || '',
       description: form.description || '',
       drivers: form.drivers || [],
@@ -81,4 +82,10 @@ export class TripEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  public edit(trip: Trip, save: (trip: Trip, updates: any) => void) {
+    this.save = save;
+    this.trip = trip;
+
+    this.update();
+  }
 }

@@ -32,7 +32,7 @@ export class DriversComponent implements OnInit {
 
   create() {
     const val = this.driverForm.value;
-    this.dataStore.addDriver(val.displayName, val.name, this.ngbUtility.toJSDate(val.birthday));
+    this.dataStore.addDriver(val.displayName, val.name, this.ngbUtility.toMoment(val.birthday));
     this.driverForm.reset();
   }
 
