@@ -8,6 +8,7 @@ import {NgbUtility} from '../ngb-date-utility';
 import {Utility} from '../utility';
 import {TripEditorComponent} from '../trip-editor/trip-editor.component';
 import {IMultiSelectOption} from 'angular-2-dropdown-multiselect';
+import {TripCreatorComponent} from '../trip-creator/trip-creator.component';
 
 @Component({
   selector: 'app-day-plans',
@@ -49,6 +50,11 @@ export class DayPlansComponent implements OnInit, OnDestroy {
   edit(trip: Trip) {
     const modalRef = this.modalService.open(TripEditorComponent, {size: 'lg'});
     modalRef.componentInstance.edit(trip, (t, u) => this.dataStore.updateTrip(t, u));
+  }
+
+  create() {
+    const modalRef = this.modalService.open(TripCreatorComponent, {size: 'lg'});
+    modalRef.componentInstance.create.subscribe(t => this.dataStore.addTrip(t));
   }
 
   insertTemplate() {

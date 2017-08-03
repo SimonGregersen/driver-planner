@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {Trip} from '../trip';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TripEditorComponent} from '../trip-editor/trip-editor.component';
+import {TripCreatorComponent} from '../trip-creator/trip-creator.component';
 
 @Component({
   selector: 'app-templates',
@@ -49,9 +50,11 @@ export class TemplatesComponent implements OnInit, OnDestroy {
     this.dataStore.removeTemplate(template);
   }
 
-  addTrip(trip: Trip): void {
+  create() {
     if (!this.selectedTemplate) return;
-    this.dataStore.addTripToTemplate(this.selectedTemplate, trip);
+    const modalRef = this.modalService.open(TripCreatorComponent, {size: 'lg'});
+    modalRef.componentInstance.showDate = false;
+    modalRef.componentInstance.create.subscribe(t => this.dataStore.addTripToTemplate(this.selectedTemplate, t));
   }
 
   removeTrip(trip: Trip) {

@@ -1,3 +1,8 @@
+@media (min-width: 1200px) {
+  .list-group {
+    width: 233px;
+  }
+}
 
 .custom-day {
   text-align: center;

@@ -5,7 +5,7 @@ import {Utility} from '../utility';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {NgbUtility} from 'app/ngb-date-utility';
-import {NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-trip-creator',
@@ -21,7 +21,8 @@ export class TripCreatorComponent implements OnInit, OnDestroy {
   private driversSubscription: Subscription;
   private vehiclesSubscription: Subscription;
 
-  constructor(private dataStore: DataStore, private fb: FormBuilder, private ngbUtility: NgbUtility, private calendar: NgbCalendar) {
+  constructor(private dataStore: DataStore, private fb: FormBuilder, private ngbUtility: NgbUtility
+    , private calendar: NgbCalendar, public modal: NgbActiveModal) {
   }
 
   ngOnInit() {

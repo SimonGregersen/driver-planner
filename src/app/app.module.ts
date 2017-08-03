@@ -43,6 +43,7 @@ import {NgbUtility} from './ngb-date-utility';
     TripEditorComponent
   ],
   entryComponents: [
+    TripCreatorComponent,
     TripEditorComponent
   ],
   imports: [

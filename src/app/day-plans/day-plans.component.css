@@ -1,10 +1,5 @@
-@media (min-width: 62em) {
-  /* >= large screen size*/
+@media (min-width: 1200px) {
   .list-group {
     width: 233px;
   }
-}
-
-.list-group {
-  margin-bottom: 20px;
 }

@@ -1,35 +1,37 @@
-<div class="row mt-5 mb-3 hidden-print">
+<div class="row mt-4 mb-2 hidden-print">
   <div class="col-12">
     <h2 class="font-weight-bold">
       Periodeplan
+      <small>
+        {{ ngbUtility.toMoment(from) | date }} - {{ ngbUtility.toMoment(to) | date }}
+      </small>
     </h2>
   </div>
 </div>
 <div class="visible-print-block">
-  <h4 class="font-weight-bold">
+  <h5 class="font-weight-bold">
     Periodeplan
     <small>
-      {{ ngbUtility.toMoment(from) | date : 'shortDate'}} - {{ ngbUtility.toMoment(to) | date : 'shortDate'}}
+      {{ ngbUtility.toMoment(from) | date }} - {{ ngbUtility.toMoment(to) | date }}
     </small>
-  </h4>
-  <h5 *ngIf="selectedDriver">
-    Chauffør: {{ selectedDriver.displayName }}
   </h5>
+  <h6 *ngIf="selectedDriver">
+    Chauffør: {{ selectedDriver.displayName }}
+  </h6>
 </div>
 <div class="row">
-  <div class="col-12 col-lg-3 push-lg-9 hidden-print">
-    <aside>
-      <div class="mb-5">
-        <h5>Periode</h5>
-        <div class="form-group">
-          <ngb-datepicker #dp
-                          ngModel
-                          (ngModelChange)="onDateChange($event)"
-                          [displayMonths]="1"
-                          [dayTemplate]="t"
-                          [showWeekNumbers]="true">
-          </ngb-datepicker>
-          <ng-template #t let-date="date" let-focused="focused">
+  <div class="col-12 col-xl-2 push-xl-10 hidden-print">
+    <aside class="float-right">
+      <h5>Periode</h5>
+      <div class="form-group">
+        <ngb-datepicker #dp
+                        ngModel
+                        (ngModelChange)="onDateChange($event)"
+                        [displayMonths]="1"
+                        [dayTemplate]="t"
+                        [showWeekNumbers]="true">
+        </ngb-datepicker>
+        <ng-template #t let-date="date" let-focused="focused">
           <span class="custom-day"
                 [class.focused]="focused"
                 [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
@@ -38,8 +40,7 @@
                 (mouseleave)="hovered = null">
           {{ date.day }}
           </span>
-          </ng-template>
-        </div>
+        </ng-template>
       </div>
       <div class="list-group">
         <h5>Chauffører</h5>
@@ -54,7 +55,7 @@
       </div>
     </aside>
   </div>
-  <div class="col-12 col-lg-9 pull-lg-3">
+  <div class="col-12 col-xl-10 pull-xl-2">
     <main>
       <div *ngFor="let date of range">
         <h5 class="mt-4 mb-4">{{ ngbUtility?.toMoment(date) | date : 'EEEE, d MMMM'}}</h5>

@@ -39,7 +39,7 @@ export class PeriodPlansComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.driversSubscription = this.dataStore.getAllDrivers().subscribe(ds => this.drivers = ds);
     this.from = this.calendar.getToday();
-    this.to = this.calendar.getNext(this.calendar.getToday(), 'd', 7);
+    this.to = this.calendar.getNext(this.calendar.getToday(), 'd', 6);
     this.fetchTrips();
   }
 
