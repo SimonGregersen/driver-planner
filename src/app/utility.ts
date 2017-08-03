@@ -10,4 +10,9 @@ export class Utility {
     const drivers = trip.drivers || [];
     return drivers.includes(driver.$key);
   }
+
+  static sortByDisplayName(arr: any[]): any[] {
+    return arr.sort((a, b) => a.displayName.localeCompare(b.displayName));
+  }
+
 }

@@ -14,8 +14,10 @@ import {Utility} from '../utility';
 })
 export class DayPlansComponent implements OnInit, OnDestroy {
   filteredTrips: Trip[];
-  private trips: Trip[];
+  drivers: Driver[];
+  trips: Trip[];
   private tripsSubscription: Subscription;
+  private driversSubscription: Subscription;
   private _selectedDriver: Driver = null;
   private _selectedDate: NgbDateStruct;
 
@@ -24,10 +26,12 @@ export class DayPlansComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedDate = this.calendar.getToday();
+    this.driversSubscription = this.dataStore.getAllDrivers().subscribe(ds => this.drivers = ds);
   }
 
   ngOnDestroy(): void {
     if (this.tripsSubscription) this.tripsSubscription.unsubscribe();
+    if (this.driversSubscription) this.driversSubscription.unsubscribe();
   }
 
   set selectedDriver(driver: Driver) {

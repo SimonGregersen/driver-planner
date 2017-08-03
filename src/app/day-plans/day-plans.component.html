@@ -6,9 +6,9 @@
 <div class="visible-print-block">
   <h4 class="font-weight-bold">
     Dagsplan
-    <small>{{ ngbUtility.toJSDate(selectedDate) | date : 'fullDate'}}</small>
+    <small>{{ ngbUtility.toJSDate(selectedDate) | date }}</small>
   </h4>
-  <h5  *ngIf="selectedDriver">
+  <h5 *ngIf="selectedDriver">
     Chauffør: {{ selectedDriver.displayName }}
   </h5>
 </div>
@@ -28,7 +28,7 @@
       <div class="list-group">
         <h5>Chauffører</h5>
         <button
-          *ngFor="let driver of dataStore.getAllDrivers() | async"
+          *ngFor="let driver of drivers"
           type="button"
           class="list-group-item list-group-item-action text-truncate pointer"
           [class.active]="selectedDriver?.$key === driver?.$key"
@@ -40,7 +40,7 @@
   </div>
   <div class="col-12 col-lg-9 pull-lg-3">
     <main>
-      <h5 class="mt-4 mb-4">{{ ngbUtility?.toJSDate(selectedDate) | date : 'EEEE, d MMMM'}}</h5>
+      <h5 class="mt-4 mb-4 hidden-print">{{ ngbUtility?.toJSDate(selectedDate) | date : 'EEEE, d MMMM'}}</h5>
       <app-trips [trips]="filteredTrips"></app-trips>
       <app-trip-creator class="hidden-print"></app-trip-creator>
     </main>

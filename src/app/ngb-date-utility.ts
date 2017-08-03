@@ -1,6 +1,8 @@
 import {NgbCalendar, NgbDateStruct, NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import {Injectable} from '@angular/core';
+import {isNumber} from 'util';
+import {padNumber} from '@ng-bootstrap/ng-bootstrap/util/util';
 
 @Injectable()
 export class NgbUtility {
@@ -9,14 +11,9 @@ export class NgbUtility {
   }
 
   toJSDate(date: NgbDateStruct, time?: NgbTimeStruct): Date {
-    if (!date) {
-      return null;
-    }
-
-    const dateString = NgbDate.from(date).toString();
-    if (!time) {
-      return new Date(dateString);
-    }
+    if (!date) return null;
+    const dateString = `${date.year}-${isNumber(date.month) ? padNumber(date.month) : ''}-${isNumber(date.day) ? padNumber(date.day) : ''}`;
+    if (!time) return new Date(dateString + 'T00:00:00Z');
     return new Date(date.year, date.month - 1, date.day, time.hour, time.minute, time.second);
   }
 
@@ -52,6 +49,15 @@ export class NgbUtility {
       res.push(fromDate);
     }
     return res;
+  }
+
+
+  private padNumber(value: number) {
+    if (isNumber(value)) {
+      return `0${value}`.slice(-2);
+    } else {
+      return '';
+    }
   }
 
 }

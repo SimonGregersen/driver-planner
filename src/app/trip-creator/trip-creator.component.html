@@ -62,8 +62,8 @@
     <div class="col-10">
       <ss-multiselect-dropdown formControlName="drivers"
                                [options]="availableDrivers"
-                               [settings]="{dynamicTitleMaxItems: 10}"
-                               [texts]="{defaultTitle: 'Vælg chauffører'}">
+                               [settings]="{dynamicTitleMaxItems: 10, enableSearch: true}"
+                               [texts]="{defaultTitle: 'Vælg chauffører', searchPlaceholder: 'Søg'}">
       </ss-multiselect-dropdown>
     </div>
   </div>
@@ -72,8 +72,8 @@
     <div class="col-10">
       <ss-multiselect-dropdown formControlName="vehicles"
                                [options]="availableVehicles"
-                               [settings]="{dynamicTitleMaxItems: 10}"
-                               [texts]="{defaultTitle: 'Vælg køretøjer'}">
+                               [settings]="{dynamicTitleMaxItems: 10, enableSearch: true}"
+                               [texts]="{defaultTitle: 'Vælg køretøjer', searchPlaceholder: 'Søg'}">
       </ss-multiselect-dropdown>
     </div>
   </div>

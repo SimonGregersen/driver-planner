@@ -7,6 +7,7 @@ import {Vehicle} from './vehicle';
 import 'rxjs/add/operator/do';
 import {NgbUtility} from './ngb-date-utility';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {Utility} from './utility';
 
 @Injectable()
 export class DataStore implements OnInit {
@@ -63,7 +64,11 @@ export class DataStore implements OnInit {
   }
 
   getAllDrivers(): Observable<Driver[]> {
-    return this.drivers$;
+    return this.drivers$
+      .map(Utility.sortByDisplayName)
+      .do(ds => ds.forEach(d => {
+        if (d.birthday) d.birthday = new Date(d.birthday);
+      }));
   }
 
   addDriver(displayName: string, name: string, birthday: Date) {
@@ -80,7 +85,11 @@ export class DataStore implements OnInit {
   }
 
   getAllVehicles(): Observable<Vehicle[]> {
-    return this.vehicles$;
+    return this.vehicles$
+      .map(Utility.sortByDisplayName)
+      .do(ds => ds.forEach(d => {
+        if (d.latestInspection) d.latestInspection = new Date(d.latestInspection);
+      }));
   }
 
   addVehicle(displayName: string, brand: string, regNo: string, latestInspection: Date) {

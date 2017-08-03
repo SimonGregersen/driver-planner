@@ -1,4 +1,3 @@
-///<reference path="../driver.ts"/>
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {NgbUtility} from '../ngb-date-utility';
@@ -19,9 +18,11 @@ export class PeriodPlansComponent implements OnDestroy, OnInit {
   from: NgbDateStruct;
   to: NgbDateStruct;
   range: NgbDateStruct[];
-
+  drivers: Driver[];
   trips: Trip[];
   filteredTrips: Trip[];
+
+  private driversSubscription: Subscription;
   private tripsSubscription: Subscription;
   private _selectedDriver: Driver;
 
@@ -35,6 +36,7 @@ export class PeriodPlansComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.driversSubscription = this.dataStore.getAllDrivers().subscribe(ds => this.drivers = ds);
     this.from = this.calendar.getToday();
     this.to = this.calendar.getNext(this.calendar.getToday(), 'd', 7);
     this.fetchTrips();
@@ -42,6 +44,7 @@ export class PeriodPlansComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     if (this.tripsSubscription) this.tripsSubscription.unsubscribe();
+    if (this.driversSubscription) this.driversSubscription.unsubscribe();
   }
 
   onDateChange(date: NgbDateStruct) {
