@@ -20,4 +20,9 @@ export class Utility {
     to.set({year: from.get('year'), month: from.get('month'), date: from.get('date')});
   }
 
+  static sameDate(a: Moment, b: Moment): boolean {
+    if (!a || !b) return false;
+    return a.year() === b.year() && a.month() === b.month() && a.date() === b.date();
+  }
+
 }

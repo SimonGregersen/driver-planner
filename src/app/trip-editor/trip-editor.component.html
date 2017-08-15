@@ -23,7 +23,7 @@
     <div class="row form-group"
          [class.has-danger]="!tripForm.controls['fromDate'].valid && tripForm.controls['fromDate'].dirty">
       <label for="fromDate" class="col-2 col-form-label">Fra</label>
-      <div class="col-5 col-md-3">
+      <div class="col-5 col-md-3" [hidden]="!showDate">
         <div class="input-group">
           <input formControlName="fromDate"
                  ngbDatepicker
@@ -48,7 +48,7 @@
     </div>
     <div class="row mt-3 form-group">
       <label for="toDate" class="col-2 col-form-label">Til</label>
-      <div class="col-5 col-md-3">
+      <div class="col-5 col-md-3" [hidden]="!showDate">
         <div class="input-group">
           <input formControlName="toDate"
                  ngbDatepicker

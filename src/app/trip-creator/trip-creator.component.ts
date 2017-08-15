@@ -5,7 +5,7 @@ import {Utility} from '../utility';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {NgbUtility} from 'app/ngb-date-utility';
-import {NgbActiveModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-trip-creator',
@@ -14,6 +14,7 @@ import {NgbActiveModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 })
 export class TripCreatorComponent implements OnInit, OnDestroy {
   @Output() create = new EventEmitter<{ start, end, name, description, drivers, vehicles }>();
+  @Input() defaultDate: NgbDateStruct = null;
   @Input() showDate = true;
   availableDrivers: IMultiSelectOption[];
   availableVehicles: IMultiSelectOption[];
@@ -28,9 +29,9 @@ export class TripCreatorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.tripForm = this.fb.group({
       name: ['', Validators.required],
-      fromDate: (this.showDate) ? [null, Validators.required] : null,
+      fromDate: (this.showDate) ? [this.defaultDate, Validators.required] : null,
       fromTime: null,
-      toDate: null,
+      toDate: this.defaultDate,
       toTime: null,
       drivers: [[]],
       vehicles: [[]],
@@ -53,9 +54,12 @@ export class TripCreatorComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     const val = this.tripForm.value;
+    const start = this.ngbUtility.toMoment(val.fromDate || {year: 1970, month: 1, day: 1}, val.fromTime);
+    const end = (val.toDate || val.toTime) ? this.ngbUtility.toMoment(val.toDate || this.ngbUtility.getDate(start), val.toTime) : null;
+
     const trip = {
-      start: this.ngbUtility.toMoment(val.fromDate || this.calendar.getToday(), val.fromTime),
-      end: (val.toDate || val.toTime) ? this.ngbUtility.toMoment(val.toDate || this.calendar.getToday(), val.toTime) : null,
+      start: start,
+      end: (Utility.sameDate(start, end) && !val.toTime) ? null : end,
       name: val.name,
       description: val.description,
       drivers: val.drivers,

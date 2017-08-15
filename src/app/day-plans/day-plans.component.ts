@@ -54,6 +54,7 @@ export class DayPlansComponent implements OnInit, OnDestroy {
 
   create() {
     const modalRef = this.modalService.open(TripCreatorComponent, {size: 'lg'});
+    modalRef.componentInstance.defaultDate = this.selectedDate;
     modalRef.componentInstance.create.subscribe(t => this.dataStore.addTrip(t));
   }
 

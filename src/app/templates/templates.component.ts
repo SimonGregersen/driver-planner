@@ -63,6 +63,7 @@ export class TemplatesComponent implements OnInit, OnDestroy {
 
   edit(trip: Trip) {
     const modalRef = this.modalService.open(TripEditorComponent, {size: 'lg'});
+    modalRef.componentInstance.showDate = false;
     modalRef.componentInstance.edit(trip, (t, u) => this.dataStore.updateTripFromTemplate(this.selectedTemplate, t, u));
   }
 

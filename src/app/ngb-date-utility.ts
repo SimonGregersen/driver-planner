@@ -3,8 +3,8 @@ import {NgbDate} from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import {Injectable} from '@angular/core';
 import {isNumber} from 'util';
 import {padNumber} from '@ng-bootstrap/ng-bootstrap/util/util';
-import {Moment} from 'moment';
 import * as moment from 'moment';
+import {Moment} from 'moment';
 
 @Injectable()
 export class NgbUtility {
@@ -21,7 +21,7 @@ export class NgbUtility {
   }
 
   getDate(date: Moment): NgbDateStruct {
-    return {year: date.year(), month: date.month(), day: date.date() };
+    return {year: date.year(), month: date.month() + 1, day: date.date()};
   }
 
   getTime(date: Moment): NgbTimeStruct {
@@ -53,7 +53,6 @@ export class NgbUtility {
     }
     return res;
   }
-
 
   private padNumber(value: number) {
     if (isNumber(value)) {
