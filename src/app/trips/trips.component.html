@@ -11,7 +11,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let trip of trips">
+  <tr *ngFor="let trip of trips; trackBy: trackByFn">
     <th>
       <span ngbTooltip="{{trip.start | date: 'short'}}" container="'body'">
       {{trip.start | date: 'HH:mm' }}
@@ -26,12 +26,12 @@
       {{trip.name}}
       <small class="text-muted visible-print-inline"><br>{{trip.description}}</small>
     </td>
-    <td>
+    <td [class.table-warning]="!trip.drivers || trip.drivers.length < trip.vehicles?.length">
       <span *ngFor="let key of trip.drivers; let isLast=last">
       {{ getDriver(key)?.displayName }}{{isLast ? '' : ', '}}
       </span>
     </td>
-    <td>
+    <td [class.table-warning]="!trip.vehicles || trip.drivers?.length > trip.vehicles.length">
       <span *ngFor="let key of trip.vehicles; let isLast=last">
       {{ getVehicle(key)?.displayName }}{{isLast ? '' : ', '}}
       </span>

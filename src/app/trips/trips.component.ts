@@ -41,4 +41,8 @@ export class TripsComponent implements OnInit, OnDestroy {
   getVehicle(key: string): Vehicle {
     return this.vehicles.find(v => v.$key === key);
   }
+
+  trackByFn(index: number, item: Trip) {
+    return item.$key;
+  }
 }
