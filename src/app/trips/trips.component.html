@@ -5,9 +5,9 @@
     <th class="w-6">Start</th>
     <th class="w-6">Slut</th>
     <th>Tur</th>
-    <th class="w-25">Chauffører</th>
-    <th class="w-25">Køretøjer</th>
-    <th class="w-5"></th>
+    <th class="w-15">Chauffører</th>
+    <th class="w-15">Køretøjer</th>
+    <th class="w-5 hidden-print"></th>
   </tr>
   </thead>
   <tbody>
@@ -24,7 +24,7 @@
     </td>
     <td>
       {{trip.name}}
-      <small class="text-muted visible-print-inline"><br>{{trip.description}}</small>
+      <small class="text-muted visible-print-inline newline"><br>{{trip.description}}</small>
     </td>
     <td [class.table-warning]="!trip.drivers || trip.drivers.length < trip.vehicles?.length">
       <span *ngFor="let key of trip.drivers; let isLast=last">
@@ -36,8 +36,8 @@
       {{ getVehicle(key)?.displayName }}{{isLast ? '' : ', '}}
       </span>
     </td>
-    <td>
-      <div class="pull-right icons hidden-print">
+    <td class="hidden-print">
+      <div class="pull-right icons">
         <a class="pointer"
            (click)="edit.emit(trip)">
           <i class="fa fa-pencil" ngbTooltip="Rediger"></i>

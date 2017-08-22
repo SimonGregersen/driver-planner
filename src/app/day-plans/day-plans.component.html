@@ -2,14 +2,14 @@
   <div class="col-12">
     <h2 class="font-weight-bold">
       Dagsplan
-      <small>{{ ngbUtility.toMoment(selectedDate) | date }}</small>
+      <small>{{ ngbUtility.toMoment(selectedDate) | date:'EEEE, d MMMM y' }}</small>
     </h2>
   </div>
 </div>
 <div class="visible-print-block">
   <h5 class="font-weight-bold">
     Dagsplan
-    <small>{{ ngbUtility.toMoment(selectedDate) | date }}</small>
+    <small>{{ ngbUtility.toMoment(selectedDate) | date:'EEEE, d MMMM y' }}</small>
   </h5>
   <h6 *ngIf="selectedDriver">
     Chauffør: {{ selectedDriver.displayName }}
