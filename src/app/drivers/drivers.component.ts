@@ -26,8 +26,6 @@ export class DriversComponent implements OnInit {
 
   ngOnInit() {
     this.drivers = this.dataStore.getAllDrivers()
-      .map(Utility.filterDeleted)
-      .map(Utility.sortByDisplayName);
   }
 
   create() {

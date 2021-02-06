@@ -69,7 +69,6 @@ export class PeriodPlansComponent implements OnDestroy, OnInit {
     modalRef.componentInstance.edit(trip, (t, u) => this.dataStore.updateTrip(t, u));
   }
 
-
   fetchTrips(): void {
     this.range = this.ngbUtility.range(this.from, this.to);
     if (this.tripsSubscription) this.tripsSubscription.unsubscribe();

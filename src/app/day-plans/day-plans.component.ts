@@ -4,6 +4,7 @@ import {Trip} from '../trip';
 import {NgbCalendar, NgbDateStruct, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Driver} from '../driver';
 import {Subscription} from 'rxjs/Subscription';
+import {Observable} from 'rxjs/Observable';
 import {NgbUtility} from '../ngb-date-utility';
 import {Utility} from '../utility';
 import {TripEditorComponent} from '../trip-editor/trip-editor.component';
@@ -17,12 +18,11 @@ import {TripCreatorComponent} from '../trip-creator/trip-creator.component';
 })
 export class DayPlansComponent implements OnInit, OnDestroy {
   filteredTrips: Trip[];
-  drivers: Driver[];
+  drivers: Observable<Driver[]>;
   trips: Trip[];
   selectedTemplate: string;
   availableTemplates: IMultiSelectOption[];
   private tripsSubscription: Subscription;
-  private driversSubscription: Subscription;
   private templatesSubscription: Subscription;
   private _selectedDriver: Driver = null;
   private _selectedDate: NgbDateStruct;
@@ -32,15 +32,13 @@ export class DayPlansComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedDate = this.calendar.getToday();
-    this.driversSubscription = this.dataStore.getAllDrivers()
-      .subscribe(ds => this.drivers = ds);
+    this.drivers = this.dataStore.getAllDrivers()
     this.templatesSubscription = this.dataStore.getAllTemplates()
       .subscribe(ts => this.availableTemplates = ts.map(t => ({id: t.$key, name: t.name})));
   }
 
   ngOnDestroy(): void {
     if (this.tripsSubscription) this.tripsSubscription.unsubscribe();
-    if (this.driversSubscription) this.driversSubscription.unsubscribe();
   }
 
   removeTrip(trip: Trip) {

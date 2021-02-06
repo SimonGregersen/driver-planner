@@ -38,7 +38,6 @@ export class TripCreatorComponent implements OnInit, OnDestroy {
     });
 
     this.driversSubscription = this.dataStore.getAllDrivers()
-      .map(Utility.filterDeleted)
       .subscribe(ds => this.availableDrivers = ds.map(d => ({id: d.$key, name: d.displayName})));
     this.vehiclesSubscription = this.dataStore.getAllVehicles()
       .map(Utility.filterDeleted)

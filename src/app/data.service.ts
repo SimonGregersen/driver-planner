@@ -71,6 +71,7 @@ export class DataStore implements OnInit {
 
   getAllDrivers(): Observable<Driver[]> {
     return this.drivers$
+      .map(Utility.filterDeleted)
       .map(Utility.sortByDisplayName)
       .do(ds => ds.forEach(d => {
         if (d.birthday) d.birthday = moment(d.birthday);
